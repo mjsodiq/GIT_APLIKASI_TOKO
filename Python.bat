@@ -1,0 +1,1 @@
+D:\PythonProject\venv\Scripts\python.exe D:\GIT_APLIKASI_TOKO\Main.py
