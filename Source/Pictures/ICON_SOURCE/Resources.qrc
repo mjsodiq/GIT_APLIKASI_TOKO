@@ -1,0 +1,180 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>1.png</file>
+        <file>4.png</file>
+        <file>7.png</file>
+        <file>13.png</file>
+        <file>21.png</file>
+        <file>24.png</file>
+        <file>32.png</file>
+        <file>41.png</file>
+        <file>Add.png</file>
+        <file>ahmad hania logo.png</file>
+        <file>airplane.png</file>
+        <file>align bottom.png</file>
+        <file>align hor center.png</file>
+        <file>align left.png</file>
+        <file>align right.png</file>
+        <file>align top.png</file>
+        <file>align ver center.png</file>
+        <file>anti virus.png</file>
+        <file>back.png</file>
+        <file>battery empty.png</file>
+        <file>battery full.png</file>
+        <file>blinklist.png</file>
+        <file>blogmarks.png</file>
+        <file>bluetooth.png</file>
+        <file>bomb.png</file>
+        <file>burn.png</file>
+        <file>butterfly.png</file>
+        <file>calculator.png</file>
+        <file>camera.png</file>
+        <file>cd.png</file>
+        <file>center_bottom.png</file>
+        <file>center_center.png</file>
+        <file>center_left.png</file>
+        <file>center_right.png</file>
+        <file>center_top.png</file>
+        <file>chat.png</file>
+        <file>close.png</file>
+        <file>configuration 1.png</file>
+        <file>configuration.png</file>
+        <file>connect.png</file>
+        <file>copyright.png</file>
+        <file>cut.png</file>
+        <file>del.ico.us.png</file>
+        <file>delete.png</file>
+        <file>designfloat.png</file>
+        <file>digg.png</file>
+        <file>down.png</file>
+        <file>easy access.png</file>
+        <file>edit.png</file>
+        <file>email.png</file>
+        <file>error.png</file>
+        <file>fast backward.png</file>
+        <file>fast forward.png</file>
+        <file>favorites.png</file>
+        <file>file_ASP.png</file>
+        <file>file_ASPX.png</file>
+        <file>file_c#.png</file>
+        <file>file_c++.png</file>
+        <file>file_configuration.png</file>
+        <file>file_copy.png</file>
+        <file>file_CSS.png</file>
+        <file>file_download.png</file>
+        <file>file_edit.png</file>
+        <file>file_HTML.png</file>
+        <file>file_jar.png</file>
+        <file>file_JavaScript.png</file>
+        <file>file_media.png</file>
+        <file>file_new.png</file>
+        <file>file_PHP.png</file>
+        <file>file_remove.png</file>
+        <file>file_text.png</file>
+        <file>file_vb.png</file>
+        <file>files_add.png</file>
+        <file>forward.png</file>
+        <file>gift.png</file>
+        <file>heart.png</file>
+        <file>help.png</file>
+        <file>home.png</file>
+        <file>info.png</file>
+        <file>key.png</file>
+        <file>keyboard.png</file>
+        <file>Large Icon Pack.qrc</file>
+        <file>left_bottom.png</file>
+        <file>left_top.png</file>
+        <file>listen to music.png</file>
+        <file>ma.gnolia.png</file>
+        <file>mac.png</file>
+        <file>Main.py</file>
+        <file>minimize.png</file>
+        <file>minus.png</file>
+        <file>mobile.png</file>
+        <file>molecule.png</file>
+        <file>mouse curser.png</file>
+        <file>mouse.png</file>
+        <file>move.png</file>
+        <file>movie.png</file>
+        <file>mute 2.png</file>
+        <file>mute.png</file>
+        <file>network.png</file>
+        <file>next track.png</file>
+        <file>no smoking.png</file>
+        <file>nuclear.png</file>
+        <file>ok.png</file>
+        <file>options 1.png</file>
+        <file>options.png</file>
+        <file>paint.png</file>
+        <file>palm print.png</file>
+        <file>paper clip.png</file>
+        <file>pause.png</file>
+        <file>phone.png</file>
+        <file>pin.png</file>
+        <file>play.png</file>
+        <file>plus.png</file>
+        <file>power.png</file>
+        <file>previous track.png</file>
+        <file>printer.png</file>
+        <file>recycle.png</file>
+        <file>redo.png</file>
+        <file>resize diag 1.png</file>
+        <file>resize diag 2.png</file>
+        <file>resize hor.png</file>
+        <file>resize ver.png</file>
+        <file>Resource.qrc</file>
+        <file>Resources.qrc</file>
+        <file>restart.png</file>
+        <file>restore.png</file>
+        <file>riddit.png</file>
+        <file>right_bottom.png</file>
+        <file>right_top.png</file>
+        <file>rss.png</file>
+        <file>satellite.png</file>
+        <file>save as.png</file>
+        <file>save.png</file>
+        <file>scroll down.png</file>
+        <file>scroll left.png</file>
+        <file>scroll right.png</file>
+        <file>scroll up.png</file>
+        <file>search.png</file>
+        <file>select text.png</file>
+        <file>shield.png</file>
+        <file>ship.png</file>
+        <file>shopcart.ico</file>
+        <file>shopcartadd.ico</file>
+        <file>shopcartapply.ico</file>
+        <file>shopcartdown.ico</file>
+        <file>shopcartexclude.ico</file>
+        <file>Shopping cart.icns</file>
+        <file>shopping cart.png</file>
+        <file>sitemap.png</file>
+        <file>social_digg_button_blue_256.png</file>
+        <file>social_facebook_button_blue_256.png</file>
+        <file>stop.png</file>
+        <file>stumbleupon.png</file>
+        <file>target.png</file>
+        <file>technorati.png</file>
+        <file>time.png</file>
+        <file>top.png</file>
+        <file>Turn off.gif</file>
+        <file>tv.png</file>
+        <file>twitter.png</file>
+        <file>umbrella.png</file>
+        <file>undo.png</file>
+        <file>usb.png</file>
+        <file>User group.gif</file>
+        <file>User.icns</file>
+        <file>users 1.png</file>
+        <file>users.png</file>
+        <file>volume 1.png</file>
+        <file>volume 2.png</file>
+        <file>volume.png</file>
+        <file>waiting.png</file>
+        <file>web.png</file>
+        <file>window.png</file>
+        <file>world.png</file>
+        <file>write 1.png</file>
+        <file>write.png</file>
+    </qresource>
+</RCC>
