@@ -56,7 +56,7 @@ class Page0(MenuBar, Ui_ProgramAplikasiToko):
         # Logo
         self.page0_label = QtWidgets.QLabel('Logo/Gambar')
         self.page0_label.setObjectName('page0_label')
-        Gambar = self.PathPictures + '\\Logo5.png'
+        Gambar = self.PathPictures + '/Logo5.png'
         Pixmap = QtGui.QPixmap(Gambar)
         self.page0_label.setScaledContents(True)
         self.page0_label.setPixmap(Pixmap)
@@ -240,7 +240,7 @@ class Page0(MenuBar, Ui_ProgramAplikasiToko):
             pesanError.setIcon(QtWidgets.QMessageBox.Warning)
             pesanError.exec_()
             self.CreateEventSystemLOG('{}, {}'.format(username, kelas), 'User {} mencoba untuk login namun gagal. Username yang diinput "{}", pasword yang diinput "{}"'.format(self.page0_lineEdit.text(), self.page0_lineEdit.text(), self.page0_lineEdit_1.text()))
-
+        self.page0_UserDatabase_connection.close()
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
