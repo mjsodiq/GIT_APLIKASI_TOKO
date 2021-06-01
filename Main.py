@@ -5,7 +5,7 @@ import sys
 # 1. Masukkan Paket yang berisi modul yang kita ingin import ke dalam path, agar mudah diimport
 [print("item syspath 1 : ", item) for item in sys.path]
 Directory = []
-Directory_to_Ignore = ["__pycache__", ".git"]
+Directory_to_Ignore = ["__pycache__", ".git", "Temp"]
 DirectoryItem = os.listdir(os.getcwd())
 for item in DirectoryItem:
     if item in Directory_to_Ignore:
