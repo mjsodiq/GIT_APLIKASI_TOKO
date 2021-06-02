@@ -1,9 +1,8 @@
 import sqlite3
 import shutil
 import time
-from PandanArum import *
-from StyleSheets import *
-from MenuBar import *
+import sys
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QDate, QTime, QTimer
 from escpos.printer import Usb
@@ -14,6 +13,22 @@ from pandas import ExcelFile
 from openpyxl import load_workbook
 from PIL import Image, ImageDraw, ImageFont
 
+# 1. Masukkan Paket yang berisi modul yang kita ingin import ke dalam path, agar mudah diimport
+Directory = []
+Directory_to_Ignore = ["__pycache__", ".git", "Temp"]
+DirectoryItem = os.listdir(os.getcwd())
+for item in DirectoryItem:
+    if item in Directory_to_Ignore:
+        pass
+    elif os.path.isdir(r'{}\{}'.format(os.getcwd(), item)):
+        Directory.append(item)
+        sys.path.append(r'{}\{}'.format(os.getcwd(), item))
+    else:
+        pass
+# .1 Akhir dari 1
+
+from Module import *
+
 
 class Page1(MenuBar, Ui_ProgramAplikasiToko):
     pelanggan = 0
@@ -22,14 +37,22 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         # self.programAplikasiToko.resize(2100, 800)
         self.Bayar = []
         self.Kembalian = []
+        self.MetodePembayaran = ["Tunai"]
+        self.RekeningBankDimiliki = ["BCA", "Mandiri", "Bank Jatim"]
+        self.MesinEDCDimiliki = ["BCA"]
+        self.QRIZ = ["Mandiri"]
 
+    # Buka koneksi database
     def Page1_Database(self):
         self.page1_DBConnection = sqlite3.connect(DatabaseProduk())
         self.page1_DBConnection.row_factory = sqlite3.Row
         self.page1_DBCursor = self.page1_DBConnection.cursor()
 
     def Page1_Update_ExpiredDate(self):
-        perintahTable = self.page1_DBCursor.execute("select name from sqlite_master where type='table' order by name").fetchall()
+        conn = sqlite3.connect(DatabaseProduk())
+        conn.row_factory = sqlite3.Row
+        curr = conn.cursor()
+        perintahTable = curr.execute("select name from sqlite_master where type='table' order by name").fetchall()
         table = [perintahTable[item][0] for item in range(len(perintahTable)) if perintahTable[item][0] != "Data_Produk_Master"]
 
         for tableItem in table:
@@ -38,7 +61,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
             Barcode_to_ExpiredDate = {}
             Barcode_to_No = {}
             ExpiredDate_List = []
-            ED = self.page1_DBCursor.execute("select No,Expired_Date from '{}' where Total_Stok_Sekarang > 0".format(tableItem)).fetchall()
+            ED = curr.execute("select No,Expired_Date from '{}' where Total_Stok_Sekarang > 0".format(tableItem)).fetchall()
             if len(ED) < 1:
                 pass
             else:
@@ -56,6 +79,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
                 Barcode_to_ExpiredDate.update(Barcode_to_ED)
                 Barcode_to_no = {tableItem: ExpiredDate_to_No[ExpiredDate_List[0]]}
                 Barcode_to_No.update(Barcode_to_no)
+        conn.close()
 
     def Page1_PrinterConnection(self):
         try:
@@ -234,18 +258,14 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_Label_43(self):
         self.label_43 = QtWidgets.QLabel(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_43.setFont(font)
+        self.label_43.setFont(Font(9, False))
         self.label_43.setObjectName("label_43")
         self.formLayout_4.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_43)
         self.label_43.setText('Diskon Khusus : ')
 
     def Page1_Label_45(self):
         self.label_45 = QtWidgets.QLabel(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_45.setFont(font)
+        self.label_45.setFont(Font(9, False))
         self.label_45.setObjectName("label_45")
         self.formLayout_4.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_45)
         self.label_45.setText('TOTAL : ')
@@ -308,37 +328,35 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_LineEdit_25(self):
         self.page1_ComboBox = QtWidgets.QComboBox(self.frame_3)
-        MetodePembayaran = ["Tunai"]
-        RekeningBankDimiliki = ["BCA", "Mandiri", "Bank Jatim"]
-        MesinEDCDimiliki = ["BCA"]
-        QRIZ = ["Mandiri"]
-        if len(RekeningBankDimiliki) > 0:
-            for rekeningBank in RekeningBankDimiliki:
+        self.MesinEDCDimiliki = ["BCA"]
+        self.QRIZ = ["Mandiri"]
+        if len(self.RekeningBankDimiliki) > 0:
+            for rekeningBank in self.RekeningBankDimiliki:
                 text1 = "Transfer Bank Sesama {}".format(rekeningBank)
                 text2 = "Transfer Bank Lain ke rekening {} toko".format(rekeningBank)
-                MetodePembayaran.append(text1)
-                MetodePembayaran.append(text2)
+                self.MetodePembayaran.append(text1)
+                self.MetodePembayaran.append(text2)
         else:
             pass
 
-        if len(MesinEDCDimiliki) > 0:
-            for mesinEDC in MesinEDCDimiliki:
+        if len(self.MesinEDCDimiliki) > 0:
+            for mesinEDC in self.MesinEDCDimiliki:
                 text1 = "Transaksi kartu {} dengan EDC-{}".format(mesinEDC, mesinEDC)
                 text2 = "Transaksi kartu selain {} dengan EDC-{}".format(mesinEDC, mesinEDC)
-                MetodePembayaran.append(text1)
-                MetodePembayaran.append(text2)
+                self.MetodePembayaran.append(text1)
+                self.MetodePembayaran.append(text2)
         else:
             pass
 
-        if len(QRIZ) > 0:
-            for qriz in QRIZ:
+        if len(self.QRIZ) > 0:
+            for qriz in self.QRIZ:
                 text1 = "Transaksi QRIZ-{} dari Bank {}".format(qriz, qriz)
                 text2 = "Transaksi QRIZ-{} dari selain Bank {}".format(qriz, qriz)
-                MetodePembayaran.append(text1)
-                MetodePembayaran.append(text2)
+                self.MetodePembayaran.append(text1)
+                self.MetodePembayaran.append(text2)
         else:
             pass
-        for item in MetodePembayaran:
+        for item in self.MetodePembayaran:
             self.page1_ComboBox.addItem(str(item))
         self.page1_ComboBox.setEditable(False)
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.page1_ComboBox)
