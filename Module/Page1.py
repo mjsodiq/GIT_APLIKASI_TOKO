@@ -21,7 +21,8 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
     pelanggan = 0
     def __init__(self):
         super(Page1, self).__init__()
-        # self.programAplikasiToko.resize(2100, 800)
+
+        # Pengaturan Metode Pembayaran
         self.Bayar = []
         self.Kembalian = []
         self.MetodePembayaran = ["Tunai"]
@@ -29,11 +30,12 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.MesinEDCDimiliki = ["BCA"]
         self.QRIZ = ["Mandiri"]
 
-    # Buka koneksi database
-    def Page1_Database(self):
-        self.page1_DBConnection = sqlite3.connect(DatabaseProduk())
-        self.page1_DBConnection.row_factory = sqlite3.Row
-        self.page1_DBCursor = self.page1_DBConnection.cursor()
+        # Pengaturan tabel transaksi
+        self.tableWidget_2_Kolom = ['No', 'Kode', 'Barcode', 'Nama Item', 'Qty', 'Harga Satuan', 'SubTotal', 'Diskon', 'TOTAL']
+        self.tableWidget_2_Kolom_to_Index = {}
+        for indexKolom in range(len(self.tableWidget_2_Kolom)):
+            KolomIndexDict = {self.tableWidget_2_Kolom[indexKolom]: indexKolom}
+            self.tableWidget_2_Kolom_to_Index.update(KolomIndexDict)
 
     def Page1_Update_ExpiredDate(self):
         conn = sqlite3.connect(DatabaseProduk())
@@ -68,6 +70,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
                 Barcode_to_No.update(Barcode_to_no)
         conn.close()
 
+    # Koneksikan Printer
     def Page1_PrinterConnection(self):
         try:
             self.MyPrinter = Usb(0x0483, 0x5840, 0, 0x58, 0x03)
@@ -76,8 +79,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
             Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
             Dialog.setIcon(QtWidgets.QMessageBox.Warning)
             Dialog.setWindowTitle('Printer')
-            Dialog.setText('Printer tidak terdeteksi, nyalakan printer dan pastikan '
-                           'semua kabel telah terpasang dengan benar')
+            Dialog.setText('Printer tidak terdeteksi, nyalakan printer dan pastikan semua kabel telah terpasang dengan benar')
             Dialog.setModal(True)
             Dialog.show()
             Dialog.exec_()
@@ -87,8 +89,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("Tab1")
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/Tambah/116-1169669_png-shopping-cart-free-icon.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(":/Tambah/116-1169669_png-shopping-cart-free-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tab_UTAMA.addTab(self.tab1, icon7, "")
         self.tab_UTAMA.setTabText(self.tab_UTAMA.indexOf(self.tab1), "Aplikasi Kasir")
 
@@ -194,9 +195,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.label_32.setFont(font)
         self.label_32.setObjectName("label_32")
         self.gridLayout_9.addWidget(self.label_32, 0, 0, 1, 1)
-        self.label_32.setText(
-            '{}, {} {} {}'.format(self.page1_HariSekarang, self.page1_TanggalSekarang, self.page1_BulanSekarang,
-                                  self.page1_TahunSekarang))
+        self.label_32.setText('{}, {} {} {}'.format(self.page1_HariSekarang, self.page1_TanggalSekarang, self.page1_BulanSekarang, self.page1_TahunSekarang))
 
     def Page1_SpacerItem(self):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -236,9 +235,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_Label_41(self):
         self.label_41 = QtWidgets.QLabel(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_41.setFont(font)
+        self.label_41.setFont(Font(9, False))
         self.label_41.setObjectName("label_41")
         self.label_41.setText('Transaksi : ')
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_41)
@@ -313,10 +310,8 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.SpanningRole, self.label_37)
         self.label_37.setText('TOTAL TRANSAKSI')
 
-    def Page1_LineEdit_25(self):
+    def Page1_ComboBox(self):
         self.page1_ComboBox = QtWidgets.QComboBox(self.frame_3)
-        self.MesinEDCDimiliki = ["BCA"]
-        self.QRIZ = ["Mandiri"]
         if len(self.RekeningBankDimiliki) > 0:
             for rekeningBank in self.RekeningBankDimiliki:
                 text1 = "Transfer Bank Sesama {}".format(rekeningBank)
@@ -348,16 +343,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_ComboBox.setEditable(False)
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.page1_ComboBox)
 
-
-        # self.lineEdit_25 = QtWidgets.QLineEdit(self.frame_3)
-        # font = QtGui.QFont()
-        # font.setPointSize(9)
-        # self.lineEdit_25.setFont(font)
-        # self.lineEdit_25.setReadOnly(True)
-        # self.lineEdit_25.setObjectName("lineEdit_25")
-        # self.lineEdit_25.setText("Default")
-        # self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEdit_25)
-
     def Page1_HorizontalLayout_14(self):
         self.horizontalLayout_14 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_14.setObjectName("horizontalLayout_14")
@@ -366,9 +351,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
     def Page1_LineEdit_24(self):
         self.lineEdit_24 = QtWidgets.QLineEdit(self.frame_3)
         self.lineEdit_24.setMaximumSize(QtCore.QSize(100, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lineEdit_24.setFont(font)
+        self.lineEdit_24.setFont(Font(9, False))
         self.lineEdit_24.setObjectName("lineEdit_24")
         self.lineEdit_24.setText('0')
         self.lineEdit_24.setReadOnly(True)
@@ -376,9 +359,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_LineEdit_26(self):
         self.lineEdit_26 = QtWidgets.QLineEdit(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lineEdit_26.setFont(font)
+        self.lineEdit_26.setFont(Font(9, False))
         self.lineEdit_26.setText("")
         self.lineEdit_26.setObjectName("lineEdit_26")
         self.lineEdit_26.setPlaceholderText("Tulis Event")
@@ -416,9 +397,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_Label_40(self):
         self.label_40 = QtWidgets.QLabel(self.frame_2)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_40.setFont(font)
+        self.label_40.setFont(Font(9, False))
         self.label_40.setObjectName("label_40")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_40)
         self.label_40.setText('Nomor Transaksi : ')
@@ -430,9 +409,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_LineEdit_5(self):
         self.lineEdit_5 = QtWidgets.QLineEdit(self.frame_2)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lineEdit_5.setFont(font)
+        self.lineEdit_5.setFont(Font(9, False))
         self.lineEdit_5.setReadOnly(True)
         self.lineEdit_5.setObjectName("lineEdit_5")
         self.horizontalLayout_11.addWidget(self.lineEdit_5)
@@ -444,9 +421,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_Label_42(self):
         self.label_42 = QtWidgets.QLabel(self.frame_2)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_42.setFont(font)
+        self.label_42.setFont(Font(9, False))
         self.label_42.setObjectName("label_42")
         self.horizontalLayout_19.addWidget(self.label_42)
         self.label_42.setText('Waktu Transaksi : ')
@@ -462,18 +437,14 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_LineEdit_21(self):
         self.lineEdit_21 = QtWidgets.QLineEdit(self.frame_2)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lineEdit_21.setFont(font)
+        self.lineEdit_21.setFont(Font(9, False))
         self.lineEdit_21.setReadOnly(True)
         self.lineEdit_21.setObjectName("lineEdit_21")
         self.horizontalLayout_12.addWidget(self.lineEdit_21)
 
     def Page1_Label_44(self):
         self.label_44 = QtWidgets.QLabel(self.frame_2)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_44.setFont(font)
+        self.label_44.setFont(Font(9, False))
         self.label_44.setObjectName("label_44")
         self.label_44.setText('Kasir : ')
         self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_44)
@@ -485,9 +456,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_LineEdit_23(self):
         self.lineEdit_23 = QtWidgets.QLineEdit(self.frame_2)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lineEdit_23.setFont(font)
+        self.lineEdit_23.setFont(Font(9, False))
         self.lineEdit_23.setReadOnly(True)
         self.lineEdit_23.setObjectName("lineEdit_23")
         self.horizontalLayout_13.addWidget(self.lineEdit_23)
@@ -508,12 +477,9 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.tableWidget_2.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.tableWidget_2.setShowGrid(True)
         self.tableWidget_2.setRowCount(0)
-        self.tableWidget_2_Kolom = ['No', 'Kode', 'Barcode', 'Nama Item', 'Qty', 'Harga Satuan', 'SubTotal', 'Diskon',
-                                    'TOTAL']
         self.tableWidget_2.setColumnCount(len(self.tableWidget_2_Kolom))
-        for NomorKolom in range(len(self.tableWidget_2_Kolom)):
-            self.tableWidget_2.setHorizontalHeaderItem(NomorKolom,
-                                                       QtWidgets.QTableWidgetItem(self.tableWidget_2_Kolom[NomorKolom]))
+        for namaKolom in self.tableWidget_2_Kolom:
+            self.tableWidget_2.setHorizontalHeaderItem(self.tableWidget_2_Kolom_to_Index[namaKolom], QtWidgets.QTableWidgetItem(namaKolom))
         self.tableWidget_2.setColumnWidth(0, 100)
         self.tableWidget_2.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.tableWidget_2.horizontalHeader().setFont(Font(9, True))
@@ -543,6 +509,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout_9.addLayout(self.verticalLayout)
 
+    # Tombol Tambah Item
     def Page1_PushButton_7(self):
         self.pushButton_7 = QtWidgets.QPushButton(self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -571,6 +538,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_7.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_7)
 
+    # Tombol Hapus Item
     def Page1_PushButton_8(self):
         self.pushButton_8 = QtWidgets.QPushButton(self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -590,6 +558,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_8.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_8)
 
+    # Tombol Batalkan
     def Page1_PushButton_9(self):
         self.pushButton_9 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_9.setMinimumSize(QtCore.QSize(250, 100))
@@ -604,6 +573,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_9.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_9)
 
+    # Tombol Bayar
     def Page1_PushButton_11(self):
         self.pushButton_11 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_11.setMinimumSize(QtCore.QSize(250, 100))
@@ -618,6 +588,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_11.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_11)
 
+    # Tombol Cetak Struk
     def Page1_PushButton_6(self):
         self.pushButton_6 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_6.setMinimumSize(QtCore.QSize(250, 100))
@@ -633,6 +604,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_6.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_6)
 
+    # Tombol Transaksi Baru
     def Page1_PushButton_10(self):
         self.pushButton_10 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_10.setMinimumSize(QtCore.QSize(250, 100))
@@ -656,6 +628,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.gridLayout_3.addLayout(self.horizontalLayout_4, 3, 0, 1, 2)
 
+    # LineEdit Cari Item
     def Page1_LineEdit_2(self):
         self.lineEdit_2 = QtWidgets.QLineEdit(self.tab1_TabAnak1_Tab1)
         self.lineEdit_2.setObjectName("lineEdit_2")
@@ -819,10 +792,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         else:
             prefix = ''
         PrefixNo = prefix + str(No)
-        NomorTransaksi = '{}{}{}-{}'.format(self.page1_TahunSekarang,
-                                            self.page1_BulanSekarangAngka,
-                                            self.page1_TanggalSekarang,
-                                            PrefixNo)
+        NomorTransaksi = '{}{}{}-{}'.format(self.page1_TahunSekarang, self.page1_BulanSekarangAngka, self.page1_TanggalSekarang, PrefixNo)
         while NomorTransaksi in self.page1_NomorTransaksiTerpakaiHariIni:
             No += 1
             if No < 10:
@@ -861,18 +831,18 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_OperasiTableWidget1(self):
         # Load Database
+        conn = sqlite3.connect(DatabaseProduk())
+        curr = conn.cursor()
         self.Page1_StokListBarcode = []
         self.Page1_StokListKodeToko = []
         self.Page1_StokListNamaItem = []
-        self.Page1_StokDatabaseConnection = sqlite3.connect(DatabaseProduk())
-        self.Page1_StokDatabaseCursor = self.Page1_StokDatabaseConnection.cursor()
-        self.Page1_StokListBarcodeData = self.Page1_StokDatabaseCursor.execute(
-            'select Barcode_Produk from Data_Produk_Master').fetchall()
+        self.Page1_StokListBarcodeData = curr.execute('select Barcode_Produk from Data_Produk_Master').fetchall()
         for item in self.Page1_StokListBarcodeData:
             self.Page1_StokListBarcode.append(item[0])
+        conn.close()
 
+    # Untuk mencopy Folder LOG ke LOG User agar tidak mempengaruhi writing file excell log
     def Page1_DataAkhir3(self):
-        # Untuk mencopy Folder LOG ke LOG User agar tidak mempengaruhi writing file excell log
         try:
             shutil.copytree(self.LOG, self.LOG_User, dirs_exist_ok=True)
         except:
@@ -886,7 +856,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_NomorTransaksi = self.lineEdit_5.text()
         self.page1_WaktuTransaksi = self.lineEdit_21.text()
         self.page1_Kasir = self.lineEdit_23.text()
-        self.page1_Transaksi = self.lineEdit_25.text()
+        self.page1_Transaksi = self.page1_ComboBox.currentText()
         self.page1_DiskonKhusus = self.lineEdit_24.text()
         self.page1_DiskonKhusus_Event = self.lineEdit_26.text()
         self.page1_TotalBelanjaan = self.label_50.text()
@@ -900,12 +870,15 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         pass
 
     def Page1_CariItem_Completer(self):
+        conn = sqlite3.connect(DatabaseProduk())
+        conn.row_factory = sqlite3.Row
+        curr = conn.cursor()
         self.page1_ListKode = []
         self.page1_ListBarcode = []
         self.page1_ListNamaItem = []
         Data = []
 
-        rows = self.page1_DBCursor.execute('select * from Data_Produk_Master').fetchall()
+        rows = curr.execute('select * from Data_Produk_Master').fetchall()
         for row in range(len(rows)):
             if str(rows[row]['Kode_Toko']) not in self.page1_ListKode:
                 self.page1_ListKode.append(str(rows[row]['Kode_Toko']))
@@ -939,6 +912,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_completer.setFilterMode(QtCore.Qt.MatchContains)
         self.lineEdit_2.setCompleter(self.page1_completer)
         self.page1_completer.activated.connect(self.pushButton_7.click)
+        conn.close()
 
     def Page1_CariItem_SetFocus(self):
         self.lineEdit_2.setFocus()
@@ -946,7 +920,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
     def Page1_PERINTAH(self):
         self.pushButton_10.clicked.connect(self.Page1_pushButton_10_clicked)
         self.page1_PushButton11.clicked.connect(self.Page1_PushButton11_clicked)
-        # self.tableWidget_2..connect(self.Page1_CariItem_SetFocus)
         pass
 
     def Page1_ResolutionManager(self):
@@ -986,7 +959,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.label_50.setText("self.label_50")
         self.label_51.setText("self.label_51")
         self.label_37.setText("self.label_37")
-        # self.lineEdit_25.setText("self.lineEdit_25")
         self.lineEdit_24.setText("self.lineEdit_24")
         self.lineEdit_26.setText("self.lineEdit_26")
         self.label_28.setText("self.label_28")
@@ -1003,7 +975,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_6.setText("self.pushButton_6")
         self.pushButton_10.setText("self.pushButton_10")
         self.lineEdit_2.setText("self.lineEdit_2")
-        # self.pushButton_24.setText("self.pushButton_24")
         self.label_39.setText("self.label_39")
         self.label_38.setText("self.label_38")
         pass
@@ -1018,7 +989,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         '''LOAD GUI : ___________________________________'''
         # TAB 1
         MenuBar.MenuBar_Execution(self)
-        self.Page1_Database()
         self.Page1_Update_ExpiredDate()
         self.Tab1()  # Page 1
         self.Page1_GridLayout_5()  # Page 1
@@ -1049,7 +1019,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.Page1_Label_50()  # Page 1
         self.Page1_Label_51()  # Page 1
         self.Page1_Label_37()  # Page 1
-        self.Page1_LineEdit_25()  # Page 1
+        self.Page1_ComboBox()  # Page 1
         self.Page1_HorizontalLayout_14()  # Page 1
         self.Page1_LineEdit_24()  # Page 1
         self.Page1_LineEdit_26()  # Page 1
