@@ -34,26 +34,21 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
     pelanggan = 0
     def __init__(self):
         super(Page1, self).__init__()
+        # self.programAplikasiToko.resize(2100, 800)
         self.Bayar = []
         self.Kembalian = []
-
-        # Atur Metode Pembayaran
         self.MetodePembayaran = ["Tunai"]
         self.RekeningBankDimiliki = ["BCA", "Mandiri", "Bank Jatim"]
         self.MesinEDCDimiliki = ["BCA"]
         self.QRIZ = ["Mandiri"]
+        self.tableWidget_2_Kolom = ['No', 'Kode', 'Barcode', 'Nama Item', 'Qty', 'Harga Satuan', 'SubTotal', 'Diskon',
+                                    'TOTAL']
 
-        # Pengaturan tabel transaksi
-        self.tableWidget_2_Kolom = ['No', 'Kode', 'Barcode', 'Nama Item', 'Qty', 'Harga Satuan', 'SubTotal', 'Diskon', 'TOTAL']
-        self.tableWidget_2_Kolom_to_Index = {}
-        for item in range(len(self.tableWidget_2_Kolom)):
-            dict = {self.tableWidget_2_Kolom[item]: item}
-            self.tableWidget_2_Kolom_to_Index.update(dict)
-
-        # Pengaturan Page1_CariItem_Completer
-        self.page1_ListKode = []
-        self.page1_ListBarcode = []
-        self.page1_ListNamaItem = []
+    # Buka koneksi database
+    def Page1_Database(self):
+        self.page1_DBConnection = sqlite3.connect(DatabaseProduk())
+        self.page1_DBConnection.row_factory = sqlite3.Row
+        self.page1_DBCursor = self.page1_DBConnection.cursor()
 
     def Page1_Update_ExpiredDate(self):
         conn = sqlite3.connect(DatabaseProduk())
@@ -333,7 +328,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.SpanningRole, self.label_37)
         self.label_37.setText('TOTAL TRANSAKSI')
 
-    def Page1_ComboBox(self):
+    def Page1_LineEdit_25(self):
         self.page1_ComboBox = QtWidgets.QComboBox(self.frame_3)
         self.MesinEDCDimiliki = ["BCA"]
         self.QRIZ = ["Mandiri"]
@@ -513,8 +508,9 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.tableWidget_2.setShowGrid(True)
         self.tableWidget_2.setRowCount(0)
         self.tableWidget_2.setColumnCount(len(self.tableWidget_2_Kolom))
-        for item in self.tableWidget_2_Kolom:
-            self.tableWidget_2.setHorizontalHeaderItem(self.tableWidget_2_Kolom_to_Index[item], QtWidgets.QTableWidgetItem(item))
+        for NomorKolom in range(len(self.tableWidget_2_Kolom)):
+            self.tableWidget_2.setHorizontalHeaderItem(NomorKolom,
+                                                       QtWidgets.QTableWidgetItem(self.tableWidget_2_Kolom[NomorKolom]))
         self.tableWidget_2.setColumnWidth(0, 100)
         self.tableWidget_2.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.tableWidget_2.horizontalHeader().setFont(Font(9, True))
@@ -572,7 +568,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_7.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_7)
 
-    # Tombol Hapus Item
     def Page1_PushButton_8(self):
         self.pushButton_8 = QtWidgets.QPushButton(self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -592,7 +587,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_8.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_8)
 
-    # Tombol Batalkan Transaksi
     def Page1_PushButton_9(self):
         self.pushButton_9 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_9.setMinimumSize(QtCore.QSize(250, 100))
@@ -607,7 +601,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_9.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_9)
 
-    # Tombol Bayar
     def Page1_PushButton_11(self):
         self.pushButton_11 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_11.setMinimumSize(QtCore.QSize(250, 100))
@@ -622,7 +615,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_11.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_11)
 
-    # Tombol Cetak Struk
     def Page1_PushButton_6(self):
         self.pushButton_6 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_6.setMinimumSize(QtCore.QSize(250, 100))
@@ -638,7 +630,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_6.setStyleSheet(ButtonStyleSheets3(CekResolusi()))
         self.verticalLayout.addWidget(self.pushButton_6)
 
-    # Tombol Buat Transaksi Baru
     def Page1_PushButton_10(self):
         self.pushButton_10 = QtWidgets.QPushButton(self.frame_4)
         self.pushButton_10.setMinimumSize(QtCore.QSize(250, 100))
@@ -662,7 +653,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.gridLayout_3.addLayout(self.horizontalLayout_4, 3, 0, 1, 2)
 
-    # Line Edit Cari Item
     def Page1_LineEdit_2(self):
         self.lineEdit_2 = QtWidgets.QLineEdit(self.tab1_TabAnak1_Tab1)
         self.lineEdit_2.setObjectName("lineEdit_2")
@@ -690,7 +680,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.horizontalLayout_15.setObjectName("horizontalLayout_15")
         self.gridLayout_5.addLayout(self.horizontalLayout_15, 1, 0, 1, 1)
 
-    # Label Aplikasi Toko by PandanArum, pandanarum.com
     def Page1_Label_39(self):
         self.label_39 = QtWidgets.QLabel(self.tab1)
         font = QtGui.QFont()
@@ -701,9 +690,8 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.label_39.setStyleSheet("color: rgb(0, 85, 0);")
         self.label_39.setObjectName("label_39")
         self.horizontalLayout_15.addWidget(self.label_39)
-        self.label_39.setText('Aplikasi Toko by PandanArum, pandanarum.com')
+        self.label_39.setText('Aplikasi Toko by PandanArum, Produseno.com')
 
-    # Label Kota Batu, Jawa Timur, Indonesia (2020)
     def Page1_Label_38(self):
         self.label_38 = QtWidgets.QLabel(self.tab1)
         font = QtGui.QFont()
@@ -870,17 +858,18 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_OperasiTableWidget1(self):
         # Load Database
-        conn = sqlite3.connect(DatabaseProduk())
-        curr = conn.cursor()
         self.Page1_StokListBarcode = []
         self.Page1_StokListKodeToko = []
         self.Page1_StokListNamaItem = []
-        self.Page1_StokListBarcodeData = curr.execute('select Barcode_Produk from Data_Produk_Master').fetchall()
+        self.Page1_StokDatabaseConnection = sqlite3.connect(DatabaseProduk())
+        self.Page1_StokDatabaseCursor = self.Page1_StokDatabaseConnection.cursor()
+        self.Page1_StokListBarcodeData = self.Page1_StokDatabaseCursor.execute(
+            'select Barcode_Produk from Data_Produk_Master').fetchall()
         for item in self.Page1_StokListBarcodeData:
             self.Page1_StokListBarcode.append(item[0])
-        conn.close()
-    # Untuk mencopy Folder LOG System ke LOGUser agar tidak mempengaruhi writing file excell di LOG System
+
     def Page1_DataAkhir3(self):
+        # Untuk mencopy Folder LOG ke LOG User agar tidak mempengaruhi writing file excell log
         try:
             shutil.copytree(self.LOG, self.LOG_User, dirs_exist_ok=True)
         except:
@@ -894,7 +883,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_NomorTransaksi = self.lineEdit_5.text()
         self.page1_WaktuTransaksi = self.lineEdit_21.text()
         self.page1_Kasir = self.lineEdit_23.text()
-        self.page1_Transaksi = self.page1_ComboBox.currentText()
+        self.page1_Transaksi = self.lineEdit_25.text()
         self.page1_DiskonKhusus = self.lineEdit_24.text()
         self.page1_DiskonKhusus_Event = self.lineEdit_26.text()
         self.page1_TotalBelanjaan = self.label_50.text()
@@ -908,12 +897,12 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         pass
 
     def Page1_CariItem_Completer(self):
-        conn = sqlite3.connect(DatabaseProduk())
-        conn.row_factory = sqlite3.Row
-        curr = conn.cursor()
+        self.page1_ListKode = []
+        self.page1_ListBarcode = []
+        self.page1_ListNamaItem = []
         Data = []
 
-        rows = curr.execute('select * from Data_Produk_Master').fetchall()
+        rows = self.page1_DBCursor.execute('select * from Data_Produk_Master').fetchall()
         for row in range(len(rows)):
             if str(rows[row]['Kode_Toko']) not in self.page1_ListKode:
                 self.page1_ListKode.append(str(rows[row]['Kode_Toko']))
@@ -947,7 +936,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_completer.setFilterMode(QtCore.Qt.MatchContains)
         self.lineEdit_2.setCompleter(self.page1_completer)
         self.page1_completer.activated.connect(self.pushButton_7.click)
-        conn.close()
 
     def Page1_CariItem_SetFocus(self):
         self.lineEdit_2.setFocus()
@@ -955,6 +943,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
     def Page1_PERINTAH(self):
         self.pushButton_10.clicked.connect(self.Page1_pushButton_10_clicked)
         self.page1_PushButton11.clicked.connect(self.Page1_PushButton11_clicked)
+        # self.tableWidget_2..connect(self.Page1_CariItem_SetFocus)
         pass
 
     def Page1_ResolutionManager(self):
@@ -994,6 +983,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.label_50.setText("self.label_50")
         self.label_51.setText("self.label_51")
         self.label_37.setText("self.label_37")
+        # self.lineEdit_25.setText("self.lineEdit_25")
         self.lineEdit_24.setText("self.lineEdit_24")
         self.lineEdit_26.setText("self.lineEdit_26")
         self.label_28.setText("self.label_28")
@@ -1010,6 +1000,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_6.setText("self.pushButton_6")
         self.pushButton_10.setText("self.pushButton_10")
         self.lineEdit_2.setText("self.lineEdit_2")
+        # self.pushButton_24.setText("self.pushButton_24")
         self.label_39.setText("self.label_39")
         self.label_38.setText("self.label_38")
         pass
@@ -1024,6 +1015,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         '''LOAD GUI : ___________________________________'''
         # TAB 1
         MenuBar.MenuBar_Execution(self)
+        self.Page1_Database()
         self.Page1_Update_ExpiredDate()
         self.Tab1()  # Page 1
         self.Page1_GridLayout_5()  # Page 1
@@ -1054,6 +1046,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.Page1_Label_50()  # Page 1
         self.Page1_Label_51()  # Page 1
         self.Page1_Label_37()  # Page 1
+        self.Page1_LineEdit_25()  # Page 1
         self.Page1_HorizontalLayout_14()  # Page 1
         self.Page1_LineEdit_24()  # Page 1
         self.Page1_LineEdit_26()  # Page 1
@@ -1086,7 +1079,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.Page1_HorizontalLayout_4()  # Page 1
         # self.Page1_PushButton_24()  # Page 1
         self.Page1_LineEdit_2()  # Page 1
-        self.Page1_ComboBox()
         self.Page1_SpacerItem4()  # Page 1
         self.Page1_HorizontalLayout_15()  # Page 1
         self.Page1_Label_39()  # Page 1
@@ -1110,6 +1102,9 @@ class Page1_dsi(Page1):
     def __init__(self, data):
         self.Data = data
         super(Page1_dsi, self).__init__()
+
+        '''INISIALISASI DATA'''
+        self.Page1_dsi_LoadDataBase()
 
         '''BUAT GUI'''
         self.Page1_dsi_INISIALISASI()
@@ -1169,8 +1164,12 @@ class Page1_dsi(Page1):
         self.Data.pushButton_9.clicked.connect(self.Page1_BatalkanTransaksi)
         self.Data.pushButton_11.clicked.connect(self.Page1_Bayar)
 
+
+
         self.Data.pushButton_6.clicked.connect(self.Page1_CetakStruk2)
         self.Data.pushButton_6.clicked.connect(self.Page1_UpdateExcellSetelahTransaksi)
+
+
 
         self.Data.pushButton_10.clicked.connect(self.Page1_TambahTransaksiBaru)
         self.Data.tab1_TabAnak1.currentChanged.connect(self.Page1_Event_Tab1TabAnak1_Changed)
@@ -1192,6 +1191,12 @@ class Page1_dsi(Page1):
 
         # self.Data.tab1_TabAnak1.setCurrentWidget(self.page1_dsi)
         self.page1_dsi_DBConnection.close()
+
+    def Page1_dsi_LoadDataBase(self):
+        self.page1_dsi_DBConnection = sqlite3.connect(DatabaseProduk())
+        self.page1_dsi_DBCursor = self.page1_dsi_DBConnection.cursor()
+        # self.page1_dsi_DBData = self.page1_dsi_DBCursor.execute('select No, KodeToko, Barcode, Nama_Item, Stok, Satuan, Harga_Jual_Per_Satuan_Terkecil, Quantity_Jual_Terkecil, Satuan_Jual_Terkecil, Diskon1, Diskon2, Diskon3, Posisi_Barang from Data_Produk_Master').fetchall()
+        pass
 
     def Page1_dsi_INISIALISASI(self):
         self.page1_dsi = QtWidgets.QWidget()
@@ -1326,43 +1331,39 @@ class Page1_dsi(Page1):
     '''Edit : '''
 
     def Page1_dsi_LineEdit_AutoComplete(self):
-        conn = sqlite3.connect(DatabaseProduk())
-        curr = conn.cursor()
-        barcode = curr.execute("select name from sqlite_master where type='table' order by name").fetchall()
+        barcode =self.page1_dsi_DBCursor.execute("select name from sqlite_master where type='table' order by name").fetchall()
         Barcode = [barcode[item][0] for item in range(len(barcode)) if barcode[item][0] != "Data_Produk_Master"]
-        kodeToko = curr.execute("select name from sqlite_master where type='table' order by name").fetchall()
+        kodeToko = self.page1_dsi_DBCursor.execute("select name from sqlite_master where type='table' order by name").fetchall()
         KodeToko = [kodeToko[item][0] for item in range(len(kodeToko)) if kodeToko[item][0]!="Data_Produk_Master"]
-        Nama_Item = [str(curr.execute("select Nama_Produk from '{}'".format(item2)).fetchone()[0]) for item2 in Barcode if item2 != "Data_Produk_Master"]
+        Nama_Item = [str(self.page1_dsi_DBCursor.execute("select Nama_Produk from '{}'".format(item2)).fetchone()[0]) for item2 in Barcode if item2 != "Data_Produk_Master"]
 
         self.Page1_dsi_Completer = QtWidgets.QCompleter(KodeToko + Barcode + Nama_Item)
         self.Page1_dsi_Completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         self.Page1_dsi_Completer.setFilterMode(QtCore.Qt.MatchContains)
         self.page1_dsi_LineEdit.setCompleter(self.Page1_dsi_Completer)
-        conn.close()
 
     def Page1_dsi_LineEdit_AutoComplete_Completed(self):
-        conn = sqlite3.connect(DatabaseProduk())
-        curr = conn.cursor()
-        barcode = curr.execute("select name from sqlite_master where type='table' order by name").fetchall()
+        barcode = self.page1_dsi_DBCursor.execute("select name from sqlite_master where type='table' order by name").fetchall()
         Barcode = [barcode[item][0] for item in range(len(barcode)) if barcode[item][0] != "Data_Produk_Master"]
-        KodeToko = {curr.execute("select Kode_Toko from '{}'".format(str(item2))).fetchone()[0]:str(item2) for item2 in Barcode}
-        Nama_Item = {curr.execute("select Nama_Produk from '{}'".format(str(item2))).fetchone()[0]:str(item2) for item2 in Barcode}
+        KodeToko = {self.page1_dsi_DBCursor.execute("select Kode_Toko from '{}'".format(str(item2))).fetchone()[0]:str(item2) for item2 in Barcode}
+        Nama_Item = {self.page1_dsi_DBCursor.execute("select Nama_Produk from '{}'".format(str(item2))).fetchone()[0]:str(item2) for item2 in Barcode}
+        print(KodeToko)
         Text = self.page1_dsi_LineEdit.text()
 
         if Text in KodeToko:
             KodeToko_No = 1
             KodeToko_KodeToko = Text
             KodeToko_Barcode = KodeToko[Text]
-            KodeToko_NamaItem = curr.execute("select Nama_Produk from '{}'".format(KodeToko_Barcode)).fetchone()[0]
-            KodeToko_Stok = int(curr.execute("select TOTAL(Total_Stok_Sekarang) from '{}'".format(KodeToko_Barcode)).fetchone()[0])
-            KodeToko_Satuan = curr.execute("select Total_Stok_Sekarang_Satuan from '{}'".format(KodeToko_Barcode)).fetchone()[0]
-            KodeToko_PosisiBarang = curr.execute('select Posisi_Barang from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            KodeToko_NamaItem = self.page1_dsi_DBCursor.execute("select Nama_Produk from '{}'".format(KodeToko_Barcode)).fetchone()[0]
+            KodeToko_Stok = int(self.page1_dsi_DBCursor.execute("select TOTAL(Total_Stok_Sekarang) from '{}'".format(KodeToko_Barcode)).fetchone()[0])
+            KodeToko_Satuan = self.page1_dsi_DBCursor.execute("select Total_Stok_Sekarang_Satuan from '{}'".format(KodeToko_Barcode)).fetchone()[0]
+            KodeToko_PosisiBarang = self.page1_dsi_DBCursor.execute('select Posisi_Barang from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
             # KodeToko_Qty = self.page1_dsi_DBCursor.execute('select Quantity_Jual_Terkecil from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
             # KodeToko_SatuanJual = self.page1_dsi_DBCursor.execute('select Satuan_Jual_Terkecil from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            KodeToko_HargaJual = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            KodeToko_Grosir1 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            KodeToko_Grosir2 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            KodeToko_Grosir3 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            KodeToko_HargaJual = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            KodeToko_Grosir1 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            KodeToko_Grosir2 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            KodeToko_Grosir3 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Kode_Toko"="{}"'.format(Text)).fetchall()[0][0]
             while self.page1_dsi_TableWidget.rowCount() >= 2:
                 self.page1_dsi_TableWidget.removeRow(1)
             else:
@@ -1383,15 +1384,17 @@ class Page1_dsi(Page1):
         elif Text in Barcode:
             Barcode_No = 1
             Barcode_Barcode = Text
-            Barcode_KodeToko = curr.execute("select Kode_Toko from '{}'".format(Text)).fetchone()[0]
-            Barcode_NamaItem = curr.execute("select Nama_Produk from '{}'".format(Text)).fetchone()[0]
-            Barcode_Stok = int(curr.execute("select sum(Total_Stok_Sekarang) from '{}'".format(Text)).fetchone()[0])
-            Barcode_Satuan = curr.execute("select Total_Stok_Sekarang_Satuan from '{}'".format(Text)).fetchone()[0]
-            Barcode_PosisiBarang = curr.execute('select Posisi_Barang from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
-            Barcode_HargaJual = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
-            Barcode_Grosir1 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
-            Barcode_Grosir2 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
-            Barcode_Grosir3 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            Barcode_KodeToko = self.page1_dsi_DBCursor.execute("select Kode_Toko from '{}'".format(Text)).fetchone()[0]
+            Barcode_NamaItem = self.page1_dsi_DBCursor.execute("select Nama_Produk from '{}'".format(Text)).fetchone()[0]
+            Barcode_Stok = int(self.page1_dsi_DBCursor.execute("select sum(Total_Stok_Sekarang) from '{}'".format(Text)).fetchone()[0])
+            Barcode_Satuan = self.page1_dsi_DBCursor.execute("select Total_Stok_Sekarang_Satuan from '{}'".format(Text)).fetchone()[0]
+            Barcode_PosisiBarang = self.page1_dsi_DBCursor.execute('select Posisi_Barang from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            # Barcode_Qty = self.page1_dsi_DBCursor.execute('select Quantity_Jual_Terkecil from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            # Barcode_SatuanJual = self.page1_dsi_DBCursor.execute('select Satuan_Jual_Terkecil from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            Barcode_HargaJual = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            Barcode_Grosir1 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            Barcode_Grosir2 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
+            Barcode_Grosir3 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Barcode_Produk"="{}"'.format(Text)).fetchall()[0][0]
             while self.page1_dsi_TableWidget.rowCount() >= 2:
                 self.page1_dsi_TableWidget.removeRow(1)
             else:
@@ -1402,6 +1405,8 @@ class Page1_dsi(Page1):
                 self.page1_dsi_TableWidget.item(0, 4).setText(str(Barcode_Stok))
                 self.page1_dsi_TableWidget.item(0, 5).setText(str(Barcode_Satuan))
                 self.page1_dsi_TableWidget.item(0, 6).setText(str(Barcode_PosisiBarang))
+                # self.page1_dsi_TableWidget.item(0, 7).setText(str(Barcode_Qty))
+                # self.page1_dsi_TableWidget.item(0, 8).setText(str(Barcode_SatuanJual))
                 self.page1_dsi_TableWidget.item(0, 9).setText(str(Barcode_HargaJual))
                 self.page1_dsi_TableWidget.item(0, 10).setText(str(Barcode_Grosir1))
                 self.page1_dsi_TableWidget.item(0, 11).setText(str(Barcode_Grosir2))
@@ -1409,15 +1414,17 @@ class Page1_dsi(Page1):
         elif Text in Nama_Item:
             Nama_Item_No = 1
             Nama_Item_Barcode = Nama_Item[Text]
-            Nama_Item_KodeToko = curr.execute("select Kode_Toko from '{}'".format(Nama_Item_Barcode)).fetchone()[0]
+            Nama_Item_KodeToko = self.page1_dsi_DBCursor.execute("select Kode_Toko from '{}'".format(Nama_Item_Barcode)).fetchone()[0]
             Nama_Item_NamaItem = Text
-            Nama_Item_Stok = int(curr.execute("select sum(Total_Stok_Sekarang) from '{}'".format(Nama_Item_Barcode)).fetchone()[0])
-            Nama_Item_Satuan = curr.execute("select Total_Stok_Sekarang_Satuan from '{}'".format(Nama_Item_Barcode)).fetchone()[0]
-            Nama_Item_PosisiBarang = curr.execute('select Posisi_Barang from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            Nama_Item_HargaJual = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            Nama_Item_Grosir1 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            Nama_Item_Grosir2 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
-            Nama_Item_Grosir3 = curr.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            Nama_Item_Stok = int(self.page1_dsi_DBCursor.execute("select sum(Total_Stok_Sekarang) from '{}'".format(Nama_Item_Barcode)).fetchone()[0])
+            Nama_Item_Satuan = self.page1_dsi_DBCursor.execute("select Total_Stok_Sekarang_Satuan from '{}'".format(Nama_Item_Barcode)).fetchone()[0]
+            Nama_Item_PosisiBarang = self.page1_dsi_DBCursor.execute('select Posisi_Barang from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            # Nama_Item_Qty = self.page1_dsi_DBCursor.execute('select Quantity_Jual_Terkecil from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            # Nama_Item_SatuanJual = self.page1_dsi_DBCursor.execute('select Satuan_Jual_Terkecil from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            Nama_Item_HargaJual = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            Nama_Item_Grosir1 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            Nama_Item_Grosir2 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
+            Nama_Item_Grosir3 = self.page1_dsi_DBCursor.execute('select Harga_Jual_Saat_Diskon from Data_Produk_Master where "Nama_Produk_Di_Toko"="{}"'.format(Text)).fetchall()[0][0]
             while self.page1_dsi_TableWidget.rowCount() >= 2:
                 self.page1_dsi_TableWidget.removeRow(1)
             else:
@@ -1428,6 +1435,8 @@ class Page1_dsi(Page1):
                 self.page1_dsi_TableWidget.item(0, 4).setText(str(Nama_Item_Stok))
                 self.page1_dsi_TableWidget.item(0, 5).setText(str(Nama_Item_Satuan))
                 self.page1_dsi_TableWidget.item(0, 6).setText(str(Nama_Item_PosisiBarang))
+                # self.page1_dsi_TableWidget.item(0, 7).setText(str(Nama_Item_Qty))
+                # self.page1_dsi_TableWidget.item(0, 8).setText(str(Nama_Item_SatuanJual))
                 self.page1_dsi_TableWidget.item(0, 9).setText(str(Nama_Item_HargaJual))
                 self.page1_dsi_TableWidget.item(0, 10).setText(str(Nama_Item_Grosir1))
                 self.page1_dsi_TableWidget.item(0, 11).setText(str(Nama_Item_Grosir2))
@@ -1442,7 +1451,6 @@ class Page1_dsi(Page1):
             Dialog.show()
             Dialog.exec_()
             pass
-        conn.close()
 
     def Page1_dsi_Frame_Edited(self):
         self.page1_dsi_Frame.setStyleSheet('background-color: black; color: white;')
@@ -1470,8 +1478,6 @@ class Page1_dsi(Page1):
         self.Data.pushButton_13.click()
 
     def Page1_dsi_TableWidget_Edited(self):
-        conn = sqlite3.connect(DatabaseProduk())
-        curr = conn.cursor()
         DataNo = []
         Kolom = ['No', 'Kode_Toko', 'Barcode_Produk', 'NamaItem', 'Total_Stok', 'Satuan', 'PosisiBarang', 'Qty',
                  'Satuan_Jual', 'Harga_Jual', 'Harga_Diskon', 'Grosir_1', 'Grosir_2']
@@ -1483,7 +1489,7 @@ class Page1_dsi(Page1):
             QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.page1_dsi_TableWidget.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.page1_dsi_TableWidget.horizontalHeader().setFont(Font(9, True))
-        No = curr.execute('SELECT No FROM Data_Produk_Master').fetchall()
+        No = self.page1_dsi_DBCursor.execute('SELECT No FROM Data_Produk_Master').fetchall()
         for no in No:
             DataNo.append(no[0])
 
@@ -1493,62 +1499,70 @@ class Page1_dsi(Page1):
             self.page1_dsi_TableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(no))
             self.page1_dsi_TableWidget.item(row, 0).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
-            KodeToko = curr.execute('select Kode_Toko from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
+            KodeToko = self.page1_dsi_DBCursor.execute('select Kode_Toko from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
             self.page1_dsi_TableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(KodeToko))
 
             Barcode = \
-                curr.execute('select Barcode_Produk from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[
+                self.page1_dsi_DBCursor.execute('select Barcode_Produk from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[
                     0][0]
             self.page1_dsi_TableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(Barcode))
 
-            Nama_Item = curr.execute(
+            Nama_Item = self.page1_dsi_DBCursor.execute(
                 'select Nama_Produk_Di_Toko from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
             self.page1_dsi_TableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(Nama_Item))
 
             Stok = \
-                curr.execute(
+                self.page1_dsi_DBCursor.execute(
                     'select Total_Stok from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][
                     0]
             self.page1_dsi_TableWidget.setItem(row, 4, QtWidgets.QTableWidgetItem(Stok))
             self.page1_dsi_TableWidget.item(row, 4).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
             Satuan = \
-                curr.execute(
+                self.page1_dsi_DBCursor.execute(
                     'select Total_Stok_Satuan from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[
                     0][0]
             self.page1_dsi_TableWidget.setItem(row, 5, QtWidgets.QTableWidgetItem(Satuan))
 
-            Posisi_Barang = curr.execute(
+            Posisi_Barang = self.page1_dsi_DBCursor.execute(
                 'select Posisi_Barang from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
             self.page1_dsi_TableWidget.setItem(row, 6, QtWidgets.QTableWidgetItem(Posisi_Barang))
 
-            HargaJual = curr.execute(
+            # Qty = self.page1_dsi_DBCursor.execute(
+            #     'select Quantity_Jual_Terkecil from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
+            # self.page1_dsi_TableWidget.setItem(row, 7, QtWidgets.QTableWidgetItem(Qty))
+            # self.page1_dsi_TableWidget.item(row, 7).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+            #
+            # Satuan_Jual_Terkecil = self.page1_dsi_DBCursor.execute(
+            #     'select Satuan_Jual_Terkecil from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
+            # self.page1_dsi_TableWidget.setItem(row, 8, QtWidgets.QTableWidgetItem(Satuan_Jual_Terkecil))
+
+            HargaJual = self.page1_dsi_DBCursor.execute(
                 'select Harga_Jual_Saat_Diskon from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[0][0]
             self.page1_dsi_TableWidget.setItem(row, 9, QtWidgets.QTableWidgetItem(HargaJual))
             self.page1_dsi_TableWidget.item(row, 9).setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
 
             Diskon1 = \
-                curr.execute(
+                self.page1_dsi_DBCursor.execute(
                     'select Harga_Jual_Saat_Grosir_1 from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[
                     0][0]
             self.page1_dsi_TableWidget.setItem(row, 10, QtWidgets.QTableWidgetItem(Diskon1))
             self.page1_dsi_TableWidget.item(row, 10).setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
 
             Diskon2 = \
-                curr.execute(
+                self.page1_dsi_DBCursor.execute(
                     'select Harga_Jual_Saat_Grosir_2 from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[
                     0][0]
             self.page1_dsi_TableWidget.setItem(row, 11, QtWidgets.QTableWidgetItem(Diskon2))
             self.page1_dsi_TableWidget.item(row, 11).setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
 
             Diskon3 = \
-                curr.execute(
+                self.page1_dsi_DBCursor.execute(
                     'select Harga_Jual_Saat_Grosir_3 from Data_Produk_Master where "No"="{}"'.format(no)).fetchall()[
                     0][0]
             self.page1_dsi_TableWidget.setItem(row, 12, QtWidgets.QTableWidgetItem(Diskon3))
             self.page1_dsi_TableWidget.item(row, 12).setTextAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
-            conn.commit()
-        conn.close()
+            self.page1_dsi_DBConnection.commit()
 
     def Page1_dsi_PushButton_3_Edited(self):
         self.page1_dsi_LineEdit.clear()
