@@ -13,21 +13,8 @@ from pandas import ExcelFile
 from openpyxl import load_workbook
 from PIL import Image, ImageDraw, ImageFont
 
-# 1. Masukkan Paket yang berisi modul yang kita ingin import ke dalam path, agar mudah diimport
-Directory = []
-Directory_to_Ignore = ["__pycache__", ".git", "Temp"]
-DirectoryItem = os.listdir(os.getcwd())
-for item in DirectoryItem:
-    if item in Directory_to_Ignore:
-        pass
-    elif os.path.isdir(r'{}\{}'.format(os.getcwd(), item)):
-        Directory.append(item)
-        sys.path.append(r'{}\{}'.format(os.getcwd(), item))
-    else:
-        pass
-# .1 Akhir dari 1
-
-from Module import *
+from PandanArum import *
+from MenuBar import *
 
 
 class Page1(MenuBar, Ui_ProgramAplikasiToko):
@@ -41,14 +28,11 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.RekeningBankDimiliki = ["BCA", "Mandiri", "Bank Jatim"]
         self.MesinEDCDimiliki = ["BCA"]
         self.QRIZ = ["Mandiri"]
-        self.tableWidget_2_Kolom = ['No', 'Kode', 'Barcode', 'Nama Item', 'Qty', 'Harga Satuan', 'SubTotal', 'Diskon',
-                                    'TOTAL']
-
-    # Buka koneksi database
-    def Page1_Database(self):
-        self.page1_DBConnection = sqlite3.connect(DatabaseProduk())
-        self.page1_DBConnection.row_factory = sqlite3.Row
-        self.page1_DBCursor = self.page1_DBConnection.cursor()
+        self.tableWidget_2_Kolom = ['No', 'Kode', 'Barcode', 'Nama Item', 'Qty', 'Harga Satuan', 'SubTotal', 'Diskon', 'TOTAL']
+        self.tableWidget_2_Kolom_to_Index = {}
+        for nomor_urut_kolom in range(len(self.tableWidget_2_Kolom)):
+            dict = {self.tableWidget_2_Kolom[nomor_urut_kolom]: nomor_urut_kolom}
+            self.tableWidget_2_Kolom_to_Index.update(dict)
 
     def Page1_Update_ExpiredDate(self):
         conn = sqlite3.connect(DatabaseProduk())
@@ -102,8 +86,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("Tab1")
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/Tambah/116-1169669_png-shopping-cart-free-icon.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(":/Tambah/116-1169669_png-shopping-cart-free-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tab_UTAMA.addTab(self.tab1, icon7, "")
         self.tab_UTAMA.setTabText(self.tab_UTAMA.indexOf(self.tab1), "Aplikasi Kasir")
 
@@ -192,9 +175,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_Label_33(self):
         self.label_33 = QtWidgets.QLabel(self.frame)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_33.setFont(font)
+        self.label_33.setFont(Font(10, False))
         self.label_33.setObjectName("label_33")
         self.gridLayout_9.addWidget(self.label_33, 0, 1, 1, 1)
         self.label_33.setText('-')
@@ -251,9 +232,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_Label_41(self):
         self.label_41 = QtWidgets.QLabel(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_41.setFont(font)
+        self.label_41.setFont(Font(9, False))
         self.label_41.setObjectName("label_41")
         self.label_41.setText('Transaksi : ')
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_41)
@@ -328,10 +307,8 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.formLayout_4.setWidget(0, QtWidgets.QFormLayout.SpanningRole, self.label_37)
         self.label_37.setText('TOTAL TRANSAKSI')
 
-    def Page1_LineEdit_25(self):
+    def Page1_ComboBox(self):
         self.page1_ComboBox = QtWidgets.QComboBox(self.frame_3)
-        self.MesinEDCDimiliki = ["BCA"]
-        self.QRIZ = ["Mandiri"]
         if len(self.RekeningBankDimiliki) > 0:
             for rekeningBank in self.RekeningBankDimiliki:
                 text1 = "Transfer Bank Sesama {}".format(rekeningBank)
@@ -508,9 +485,8 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.tableWidget_2.setShowGrid(True)
         self.tableWidget_2.setRowCount(0)
         self.tableWidget_2.setColumnCount(len(self.tableWidget_2_Kolom))
-        for NomorKolom in range(len(self.tableWidget_2_Kolom)):
-            self.tableWidget_2.setHorizontalHeaderItem(NomorKolom,
-                                                       QtWidgets.QTableWidgetItem(self.tableWidget_2_Kolom[NomorKolom]))
+        for NamaKolom in self.tableWidget_2_Kolom:
+            self.tableWidget_2.setHorizontalHeaderItem(self.tableWidget_2_Kolom_to_Index[NamaKolom], QtWidgets.QTableWidgetItem(NamaKolom))
         self.tableWidget_2.setColumnWidth(0, 100)
         self.tableWidget_2.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.tableWidget_2.horizontalHeader().setFont(Font(9, True))
@@ -620,8 +596,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.pushButton_6.setMinimumSize(QtCore.QSize(250, 100))
         self.pushButton_6.setStyleSheet("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/Tambah/icon-printer02-black-icon-print-data-11553457644zutfcky9ex.png"),
-                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/Tambah/icon-printer02-black-icon-print-data-11553457644zutfcky9ex.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_6.setIcon(icon4)
         self.pushButton_6.setIconSize(QtCore.QSize(70, 70))
         self.pushButton_6.setObjectName("pushButton_6")
@@ -858,15 +833,15 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
 
     def Page1_OperasiTableWidget1(self):
         # Load Database
+        conn = sqlite3.connect(DatabaseProduk())
+        curr = conn.cursor()
         self.Page1_StokListBarcode = []
         self.Page1_StokListKodeToko = []
         self.Page1_StokListNamaItem = []
-        self.Page1_StokDatabaseConnection = sqlite3.connect(DatabaseProduk())
-        self.Page1_StokDatabaseCursor = self.Page1_StokDatabaseConnection.cursor()
-        self.Page1_StokListBarcodeData = self.Page1_StokDatabaseCursor.execute(
-            'select Barcode_Produk from Data_Produk_Master').fetchall()
+        self.Page1_StokListBarcodeData = curr.execute('select Barcode_Produk from Data_Produk_Master').fetchall()
         for item in self.Page1_StokListBarcodeData:
             self.Page1_StokListBarcode.append(item[0])
+        conn.close()
 
     def Page1_DataAkhir3(self):
         # Untuk mencopy Folder LOG ke LOG User agar tidak mempengaruhi writing file excell log
@@ -883,7 +858,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_NomorTransaksi = self.lineEdit_5.text()
         self.page1_WaktuTransaksi = self.lineEdit_21.text()
         self.page1_Kasir = self.lineEdit_23.text()
-        self.page1_Transaksi = self.lineEdit_25.text()
+        self.page1_Transaksi = self.page1_ComboBox.currentText()
         self.page1_DiskonKhusus = self.lineEdit_24.text()
         self.page1_DiskonKhusus_Event = self.lineEdit_26.text()
         self.page1_TotalBelanjaan = self.label_50.text()
@@ -897,12 +872,15 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         pass
 
     def Page1_CariItem_Completer(self):
+        conn = sqlite3.connect(DatabaseProduk())
+        conn.row_factory = sqlite3.Row
+        curr = conn.cursor()
         self.page1_ListKode = []
         self.page1_ListBarcode = []
         self.page1_ListNamaItem = []
         Data = []
 
-        rows = self.page1_DBCursor.execute('select * from Data_Produk_Master').fetchall()
+        rows = curr.execute('select * from Data_Produk_Master').fetchall()
         for row in range(len(rows)):
             if str(rows[row]['Kode_Toko']) not in self.page1_ListKode:
                 self.page1_ListKode.append(str(rows[row]['Kode_Toko']))
@@ -936,6 +914,7 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.page1_completer.setFilterMode(QtCore.Qt.MatchContains)
         self.lineEdit_2.setCompleter(self.page1_completer)
         self.page1_completer.activated.connect(self.pushButton_7.click)
+        conn.close()
 
     def Page1_CariItem_SetFocus(self):
         self.lineEdit_2.setFocus()
@@ -983,7 +962,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.label_50.setText("self.label_50")
         self.label_51.setText("self.label_51")
         self.label_37.setText("self.label_37")
-        # self.lineEdit_25.setText("self.lineEdit_25")
         self.lineEdit_24.setText("self.lineEdit_24")
         self.lineEdit_26.setText("self.lineEdit_26")
         self.label_28.setText("self.label_28")
@@ -1015,7 +993,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         '''LOAD GUI : ___________________________________'''
         # TAB 1
         MenuBar.MenuBar_Execution(self)
-        self.Page1_Database()
         self.Page1_Update_ExpiredDate()
         self.Tab1()  # Page 1
         self.Page1_GridLayout_5()  # Page 1
@@ -1046,7 +1023,6 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.Page1_Label_50()  # Page 1
         self.Page1_Label_51()  # Page 1
         self.Page1_Label_37()  # Page 1
-        self.Page1_LineEdit_25()  # Page 1
         self.Page1_HorizontalLayout_14()  # Page 1
         self.Page1_LineEdit_24()  # Page 1
         self.Page1_LineEdit_26()  # Page 1
@@ -1077,12 +1053,12 @@ class Page1(MenuBar, Ui_ProgramAplikasiToko):
         self.Page1_PushButton_10()  # Page 1
         self.Page1_PushButton11()
         self.Page1_HorizontalLayout_4()  # Page 1
-        # self.Page1_PushButton_24()  # Page 1
         self.Page1_LineEdit_2()  # Page 1
         self.Page1_SpacerItem4()  # Page 1
         self.Page1_HorizontalLayout_15()  # Page 1
         self.Page1_Label_39()  # Page 1
         self.Page1_Label_38()  # Page 1
+        self.Page1_ComboBox()
 
         '''SETELAH GUI TERLOAD : _____________________________________'''
         self.Page1_PrinterConnection()
@@ -1104,7 +1080,6 @@ class Page1_dsi(Page1):
         super(Page1_dsi, self).__init__()
 
         '''INISIALISASI DATA'''
-        self.Page1_dsi_LoadDataBase()
 
         '''BUAT GUI'''
         self.Page1_dsi_INISIALISASI()
@@ -1191,12 +1166,6 @@ class Page1_dsi(Page1):
 
         # self.Data.tab1_TabAnak1.setCurrentWidget(self.page1_dsi)
         self.page1_dsi_DBConnection.close()
-
-    def Page1_dsi_LoadDataBase(self):
-        self.page1_dsi_DBConnection = sqlite3.connect(DatabaseProduk())
-        self.page1_dsi_DBCursor = self.page1_dsi_DBConnection.cursor()
-        # self.page1_dsi_DBData = self.page1_dsi_DBCursor.execute('select No, KodeToko, Barcode, Nama_Item, Stok, Satuan, Harga_Jual_Per_Satuan_Terkecil, Quantity_Jual_Terkecil, Satuan_Jual_Terkecil, Diskon1, Diskon2, Diskon3, Posisi_Barang from Data_Produk_Master').fetchall()
-        pass
 
     def Page1_dsi_INISIALISASI(self):
         self.page1_dsi = QtWidgets.QWidget()
