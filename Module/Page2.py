@@ -37,6 +37,12 @@ class Page2_Tab1(Page2):
         super(Page2_Tab1, self).__init__()
 
         # Inisialisasi tabel staf
+        self.Page2_TableWidget_Kolom_to_Database_Dict = {
+                                                            'Nama': 'Nama',
+                                                            'Username': 'username',
+                                                            'Password': 'password',
+
+                                                        }
         self.Page2_TableWidget_Kolom = ['No', 'Nama', 'Username', 'Password', 'Otorisasi', 'Nomor HP', 'NIK', 'Foto KTP', 'Foto Diri']
         self.Page2_TableWidget_Kolom_to_Index = {}
         for item in range(len(self.Page2_TableWidget_Kolom)):
