@@ -15,6 +15,14 @@ from PIL import Image, ImageDraw, ImageFont
 
 from PandanArum import *
 from MenuBar import *
+print(os.getcwd())
+def GetParentPath(filePath=os.getcwd):
+    path = '{}'.format(os.path.dirname(filePath)).replace('\\','/')
+    return path
+
+# Main Directory for Application
+MainDir = GetParentPath(GetParentPath(__file__))
+print(MainDir)
 
 
 class Page1(MenuBar, Ui_ProgramAplikasiToko):
@@ -1802,6 +1810,7 @@ class Page1_dsi(Page1):
             TotalDiskon += 0
         return str(TotalDiskon)
 
+    # Pengaturan cetak struk
     def Page1_CetakStruk2(self):
         if len(self.Data.Bayar) < 1:
             self.Data.lineEdit_2.setFocus()
@@ -1815,18 +1824,18 @@ class Page1_dsi(Page1):
                 # Image Nomor Transaksi (Lebar Kertas : 383 px, tinggi per baris kelipatan 30px)
                 NomorTransaksi = self.Data.lineEdit_5.text()
                 WaktuTransaksi = self.Data.lineEdit_21.text()
-                fnt0 = ImageFont.truetype(r'D:\PYTHON\PROJECT\AllProject\APLIKASI_TOKO\SOURCE\Oswald-Regular.ttf', 22)
+                fnt0 = ImageFont.truetype(r'{}/Source/Font/Oswald-Regular.ttf'.format(MainDir), 22)
                 img0 = Image.new('RGB', (383, 120), color=(255, 255, 255))
                 d0 = ImageDraw.Draw(img0)
                 d0.text((0, 0), '', font=fnt0, fill=(0, 0, 0), )
                 d0.text((63, 30), 'No.Transaksi : {}'.format(NomorTransaksi), font=fnt0, fill=(0, 0, 0))
                 d0.text((93, 60), '{}'.format(WaktuTransaksi), font=fnt0, fill=(0, 0, 0))
                 d0.text((0, 90), '', font=fnt0, fill=(0, 0, 0))
-                img0.save('NomorTransaksi.png')
+                img0.save(r'{}/Temp/NomorTransaksi.png'.format(MainDir))
 
                 # Image Isi Transaksi
                 JumlahRows = self.Data.tableWidget_2.rowCount()
-                fnt1 = ImageFont.truetype(r'D:\PYTHON\PROJECT\AllProject\APLIKASI_TOKO\SOURCE\Oswald-Regular.ttf', 22)
+                fnt1 = ImageFont.truetype(r'{}/Source/Font/Oswald-Regular.ttf'.format(MainDir), 22)
                 PerTransactionImage = []
                 for row in range(JumlahRows):
                     No = self.Data.tableWidget_2.item(row, 0).text()
@@ -1883,8 +1892,8 @@ class Page1_dsi(Page1):
                             else:
                                 Text2 = TextJudulFix[(Baris * pembagi1):((Baris + 1) * pembagi1)] + '-'
                                 d.text((0, (Baris * 30)), Text2, font=fnt1, fill=(0, 0, 0))
-                    img.save('Transaksi{}.png'.format(row))
-                    PerTransactionImage.append('Transaksi{}.png'.format(row))
+                    img.save('{}/Temp/Transaksi{}.png'.format(MainDir, row))
+                    PerTransactionImage.append('{}/Temp/Transaksi{}.png'.format(MainDir, row))
                 TransactionImage = [Image.open(y) for y in PerTransactionImage]
                 TransactionImage_widths, TransactionImage_heights = zip(*(i.size for i in TransactionImage))
                 TransactionImage_max_width = max(TransactionImage_widths)
@@ -1895,11 +1904,11 @@ class Page1_dsi(Page1):
                 for im in TransactionImage:
                     new_TransactionImage.paste(im, (0, y_offset))
                     y_offset += im.size[1]
-                new_TransactionImage.save('TransaksiTotal.png')
+                new_TransactionImage.save(r'{}/Temp/TransaksiTotal.png'.format(MainDir))
 
                 # Image Total Transaksi (Lebar Kertas : 383 px, tinggi per baris kelipatan 40px)
                 TotalTransaksi = self.Data.label_50.text()
-                fnt2 = ImageFont.truetype(r'D:\PYTHON\PROJECT\AllProject\APLIKASI_TOKO\SOURCE\Oswald-Bold.ttf', 26)
+                fnt2 = ImageFont.truetype(r'{}/Source/Font/Oswald-Bold.ttf'.format(MainDir), 26)
                 img2 = Image.new('RGB', (383, 240), color=(255, 255, 255))
                 d2 = ImageDraw.Draw(img2)
                 d2.text((10, 0), '', font=fnt2, fill=(0, 0, 0))
@@ -1909,14 +1918,14 @@ class Page1_dsi(Page1):
                 d2.text((10, 120), 'Bayar : Rp {},-'.format(self.Data.Bayar[0]), font=fnt2, fill=(0, 0, 0))
                 d2.text((10, 160), 'Kembalian : Rp {},-'.format(self.Data.Kembalian[0]), font=fnt2, fill=(0, 0, 0))
                 d2.text((10, 200), '', font=fnt2, fill=(0, 0, 0))
-                img2.save('TotalTransaksi.png')
+                img2.save(r'{}/Temp/TotalTransaksi.png'.format(MainDir))
 
                 # DaftarImage Buat Struk:
-                header = r'D:\PYTHON\PROJECT\AllProject\APLIKASI_TOKO\SOURCE\0PrinterHeader.png'
-                nomorTransaksi = 'NomorTransaksi.png'
-                detailTransaksi = 'TransaksiTotal.png'
-                totalTransaksi = 'TotalTransaksi.png'
-                footer = r'D:\PYTHON\PROJECT\AllProject\APLIKASI_TOKO\SOURCE\0PrinterFooter.png'
+                header = r'{}/Source/Pictures/0PrinterHeader.png'.format(MainDir)
+                nomorTransaksi = r'{}/Temp/NomorTransaksi.png'.format(MainDir)
+                detailTransaksi = r'{}/Temp/TransaksiTotal.png'.format(MainDir)
+                totalTransaksi = r'{}/Temp/TotalTransaksi.png'.format(MainDir)
+                footer = r'{}/Source/Pictures/0PrinterFooter.png'.format(MainDir)
 
                 IsiStruk = [header, nomorTransaksi, detailTransaksi, totalTransaksi, footer]
                 StrukItemImage = [Image.open(y) for y in IsiStruk]
@@ -1970,44 +1979,47 @@ class Page1_dsi(Page1):
                 self.Data.pushButton_11.setDisabled(True)
                 self.Data.pushButton_10.setEnabled(True)
 
+    # Memilih kolom yang akan dibuat editable / noneditable pada tabel transaksi
     def Page1_SetEditableItemTable(self):
         Rows = self.Data.tableWidget_2.rowCount()
         for row in range(Rows):
-            cell_item0 = self.Data.tableWidget_2.item(row, 0)
+            cell_item0 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['No'])
             cell_item0.setFlags(cell_item0.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item1 = self.Data.tableWidget_2.item(row, 1)
+            cell_item1 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Kode'])
             cell_item1.setFlags(cell_item1.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item2 = self.Data.tableWidget_2.item(row, 2)
+            cell_item2 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Barcode'])
             cell_item2.setFlags(cell_item2.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item3 = self.Data.tableWidget_2.item(row, 3)
+            cell_item3 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Nama Item'])
             cell_item3.setFlags(cell_item3.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item5 = self.Data.tableWidget_2.item(row, 5)
+            cell_item5 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Harga Satuan'])
             cell_item5.setFlags(cell_item5.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item6 = self.Data.tableWidget_2.item(row, 6)
+            cell_item6 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['SubTotal'])
             cell_item6.setFlags(cell_item6.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item7 = self.Data.tableWidget_2.item(row, 7)
+            cell_item7 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Diskon'])
             cell_item7.setFlags(cell_item7.flags() ^ QtCore.Qt.ItemIsEditable)
-            cell_item8 = self.Data.tableWidget_2.item(row, 8)
+            cell_item8 = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['TOTAL'])
             cell_item8.setFlags(cell_item8.flags() ^ QtCore.Qt.ItemIsEditable)
 
     def Page1_SetTypeDataTable(self):
         Rows = self.Data.tableWidget_2.rowCount()
         for row in range(Rows):
-            cell_Qty = self.Data.tableWidget_2.item(row, 4).text()
-            cell_Diskon = self.Data.tableWidget_2.item(row, 7).text()
+            cell_Qty = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Qty']).text()
+            cell_Diskon = self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Diskon']).text()
             try:
                 int(cell_Qty) * 1
                 pass
             except:
-                self.Data.tableWidget_2.item(row, 4).setText('0')
+                self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Qty']).setText('0')
 
             try:
                 int(cell_Diskon) * 1
                 pass
             except:
-                self.Data.tableWidget_2.item(row, 7).setText('0')
+                self.Data.tableWidget_2.item(row, self.Data.tableWidget_2_Kolom_to_Index['Diskon']).setText('0')
 
     def Page1_TambahTransaksiBaru(self):
+        # Cek folder dan isi folder dari TransaksiTokoTerkonfirmasiLOG
+        # Lokasi ada di \Data\LOG\LOGSystem\TransaksiTokoTerkonfirmasiLOG\
         folderTahun = self.TransaksiTokoTerkonfirmasiLOG + r'/{}'.format(self.yearNow)
         folderBulan = folderTahun + r'/{}. {}'.format(self.monthNow1, self.monthNow2)
         folderTanggal = folderBulan + r'/{}-{}-{}'.format(self.dateNow, self.monthNow2, self.yearNow)
@@ -2018,6 +2030,7 @@ class Page1_dsi(Page1):
             Folder = str(Lokasi) + '/' + str(item)
             ListFolder.append(Folder)
 
+        # Reset data dari transaksi sebelumnya
         self.Data.Bayar.clear()
         self.Data.Kembalian.clear()
         self.Data.lineEdit_2.setEnabled(True)
@@ -2032,6 +2045,7 @@ class Page1_dsi(Page1):
             pass
         self.Data.lineEdit_2.setFocus()
 
+        # Membuat folder baru untuk transaksi baru
         NomorTransaksi = self.Data.lineEdit_5.text()
         CekFolder = Lokasi + str('/') + NomorTransaksi
         TransaksiHariIni = 0
@@ -2193,11 +2207,20 @@ class Page1_dsi(Page1):
             pass
 
 
+# Page1_ht = Page1_HistoryTransaksi
 class Page1_ht(Page1):
-    # Page1_ht = Page1_HistoryTransaksi
     def __init__(self, data):
         self.Data = data
         super(Page1_ht, self).__init__()
+
+        # Inisialisasi Tabel
+        self.Page1_ht_Kolom = ['Tahun', 'Bulan', 'Tanggal', 'KodeTransaksi']
+        self.Page1_ht_Kolom_to_Index = {}
+        for Page1_ht_Kolom_Item in range(len(self.Page1_ht_Kolom)):
+            Page1_ht_Kolom_ItemDict = {self.Page1_ht_Kolom[Page1_ht_Kolom_Item]: Page1_ht_Kolom_Item}
+            self.Page1_ht_Kolom_to_Index.update(Page1_ht_Kolom_ItemDict)
+
+        # Buat GUI
         self.Page1_ht_InisiasiTab()
         self.Page1_ht_Frame()
         self.Page1_ht_HorizontalLayout()
@@ -2266,8 +2289,7 @@ class Page1_ht(Page1):
         self.page1_ht_HorizontalLayout.addWidget(self.page1_ht_label)
 
     def Page1_ht_SpacerItem(self):
-        self.page1_ht_separator = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding,
-                                                        QtWidgets.QSizePolicy.Fixed)
+        self.page1_ht_separator = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.page1_ht_HorizontalLayout.addItem(self.page1_ht_separator)
 
     def Page1_ht_Label_2(self):
@@ -2327,8 +2349,7 @@ class Page1_ht(Page1):
         self.page1_ht_GridLayout_4.addWidget(self.page1_ht_PushButton_2, 0, 2)
 
     def Page1_ht_SpacerItem_2(self):
-        self.page1_ht_SpacerItem_2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed,
-                                                           QtWidgets.QSizePolicy.Fixed)
+        self.page1_ht_SpacerItem_2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         self.page1_ht_GridLayout_4.addItem(self.page1_ht_SpacerItem_2, 1, 0, 1, 3)
 
     def Page1_ht_Label_6(self):
@@ -2378,8 +2399,7 @@ class Page1_ht(Page1):
         self.page1_ht_GridLayout_3.addLayout(self.page1_ht_HorizontalLayout_2, 3, 0)
 
     def Page1_ht_SpacerItem_3(self):
-        self.page1_ht_SpacerItem_3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed,
-                                                           QtWidgets.QSizePolicy.Expanding)
+        self.page1_ht_SpacerItem_3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         self.page1_ht_Layout.addItem(self.page1_ht_SpacerItem_3, 2, 2)
 
     def Page1_ht_Frame_5(self):
@@ -2435,16 +2455,14 @@ class Page1_ht(Page1):
                             bulan = direktori4_itemList[4:6]
                             tanggal = direktori4_itemList[6:8]
                             tahun = direktori4_itemList[:4]
-                            self.page1_ht_KodeTransaksi[kodeTransaksi] = [tahun, bulan, tanggal, direktori4_itemList,
-                                                                          (direktori4 + '/' + direktori4_itemList)]
-
+                            self.page1_ht_KodeTransaksi[kodeTransaksi] = [tahun, bulan, tanggal, direktori4_itemList, (direktori4 + '/' + direktori4_itemList)]
                         except:
                             pass
 
-        kolom = ['Tahun', 'Bulan', 'Tanggal', 'KodeTransaksi']
         self.page1_ht_TableWidget.setSelectionBehavior(1)
-        self.page1_ht_TableWidget.setColumnCount(len(kolom))
-        self.page1_ht_TableWidget.setHorizontalHeaderLabels(kolom)
+        self.page1_ht_TableWidget.setColumnCount(len(self.Page1_ht_Kolom))
+        for item in self.Page1_ht_Kolom:
+            self.page1_ht_TableWidget.setHorizontalHeaderItem(self.Page1_ht_Kolom_to_Index[item], QtWidgets.QTableWidgetItem(item))
         self.page1_ht_TableWidget.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.page1_ht_TableWidget.setRowCount(len(File))
         self.page1_ht_TableWidget.verticalHeader().setVisible(False)
@@ -2452,28 +2470,21 @@ class Page1_ht(Page1):
         for key in self.page1_ht_KodeTransaksi.keys():
             jumlahBaris = self.page1_ht_TableWidget.rowCount()
             self.page1_ht_TableWidget.insertRow(jumlahBaris)
-            self.page1_ht_TableWidget.setItem(jumlahBaris, 3, QtWidgets.QTableWidgetItem(key))
-            self.page1_ht_TableWidget.item(jumlahBaris, 3).setTextAlignment(
-                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-            self.page1_ht_TableWidget.setItem(jumlahBaris, 0,
-                                              QtWidgets.QTableWidgetItem(str(self.page1_ht_KodeTransaksi[key][0])))
-            self.page1_ht_TableWidget.item(jumlahBaris, 0).setTextAlignment(
-                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-            self.page1_ht_TableWidget.setItem(jumlahBaris, 1,
-                                              QtWidgets.QTableWidgetItem(str(self.page1_ht_KodeTransaksi[key][1])))
-            self.page1_ht_TableWidget.item(jumlahBaris, 1).setTextAlignment(
-                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-            self.page1_ht_TableWidget.setItem(jumlahBaris, 2,
-                                              QtWidgets.QTableWidgetItem(str(self.page1_ht_KodeTransaksi[key][2])))
-            self.page1_ht_TableWidget.item(jumlahBaris, 2).setTextAlignment(
-                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+            self.page1_ht_TableWidget.setItem(jumlahBaris, self.Page1_ht_Kolom_to_Index['KodeTransaksi'], QtWidgets.QTableWidgetItem(key))
+            self.page1_ht_TableWidget.item(jumlahBaris, self.Page1_ht_Kolom_to_Index['KodeTransaksi']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+            self.page1_ht_TableWidget.setItem(jumlahBaris, self.Page1_ht_Kolom_to_Index['Tahun'], QtWidgets.QTableWidgetItem(str(self.page1_ht_KodeTransaksi[key][0])))
+            self.page1_ht_TableWidget.item(jumlahBaris, self.Page1_ht_Kolom_to_Index['Tahun']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+            self.page1_ht_TableWidget.setItem(jumlahBaris, self.Page1_ht_Kolom_to_Index['Bulan'], QtWidgets.QTableWidgetItem(str(self.page1_ht_KodeTransaksi[key][1])))
+            self.page1_ht_TableWidget.item(jumlahBaris, self.Page1_ht_Kolom_to_Index['Bulan']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+            self.page1_ht_TableWidget.setItem(jumlahBaris, self.Page1_ht_Kolom_to_Index['Tanggal'], QtWidgets.QTableWidgetItem(str(self.page1_ht_KodeTransaksi[key][2])))
+            self.page1_ht_TableWidget.item(jumlahBaris, self.Page1_ht_Kolom_to_Index['Tanggal']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.page1_ht_TableWidget.sortItems(3, QtCore.Qt.DescendingOrder)
         self.page1_ht_TableWidget.cellClicked.connect(self.Page1_ht_ViewStrukFromTableWidget)
 
     def Page1_ht_ViewStrukFromTableWidget(self):
         currentRow = self.page1_ht_TableWidget.currentRow()
         if currentRow >= 0:
-            currentFile = self.page1_ht_TableWidget.item(currentRow, 3).text()
+            currentFile = self.page1_ht_TableWidget.item(currentRow, self.Page1_ht_Kolom_to_Index['KodeTransaksi']).text()
             File = self.page1_ht_KodeTransaksi[currentFile][3]
             Path = self.page1_ht_KodeTransaksi[currentFile][4]
             image = Path
@@ -2514,24 +2525,20 @@ class Page1_ht(Page1):
                 else:
                     pass
                 self.page1_ht_TableWidget.setRowCount(1)
-                self.page1_ht_TableWidget.setItem(0, 3, QtWidgets.QTableWidgetItem(Text))
-                self.page1_ht_TableWidget.item(0, 3).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                self.page1_ht_TableWidget.setItem(0, 0,
-                                                  QtWidgets.QTableWidgetItem(self.page1_ht_KodeTransaksi[Text][0]))
-                self.page1_ht_TableWidget.item(0, 0).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                self.page1_ht_TableWidget.setItem(0, 1,
-                                                  QtWidgets.QTableWidgetItem(self.page1_ht_KodeTransaksi[Text][1]))
-                self.page1_ht_TableWidget.item(0, 1).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                self.page1_ht_TableWidget.setItem(0, 2,
-                                                  QtWidgets.QTableWidgetItem(self.page1_ht_KodeTransaksi[Text][2]))
-                self.page1_ht_TableWidget.item(0, 2).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                self.page1_ht_TableWidget.setItem(0, self.Page1_ht_Kolom_to_Index['KodeTransaksi'], QtWidgets.QTableWidgetItem(Text))
+                self.page1_ht_TableWidget.item(0, self.Page1_ht_Kolom_to_Index['KodeTransaksi']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                self.page1_ht_TableWidget.setItem(0, self.Page1_ht_Kolom_to_Index['Tahun'], QtWidgets.QTableWidgetItem(self.page1_ht_KodeTransaksi[Text][0]))
+                self.page1_ht_TableWidget.item(0, self.Page1_ht_Kolom_to_Index['Tahun']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                self.page1_ht_TableWidget.setItem(0, self.Page1_ht_Kolom_to_Index['Bulan'], QtWidgets.QTableWidgetItem(self.page1_ht_KodeTransaksi[Text][1]))
+                self.page1_ht_TableWidget.item(0, self.Page1_ht_Kolom_to_Index['Bulan']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                self.page1_ht_TableWidget.setItem(0, self.Page1_ht_Kolom_to_Index['Tanggal'], QtWidgets.QTableWidgetItem(self.page1_ht_KodeTransaksi[Text][2]))
+                self.page1_ht_TableWidget.item(0, self.Page1_ht_Kolom_to_Index['Tanggal']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
             else:
                 Dialog = QtWidgets.QMessageBox()
                 Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
                 Dialog.setIcon(QtWidgets.QMessageBox.Warning)
                 Dialog.setWindowTitle('File Tidak Ditemukan')
-                Dialog.setText(
-                    'Nomor Transaksi tidak ditemukan, silakan periksa kembali nomor transaksi yang anda masukkan')
+                Dialog.setText('Nomor Transaksi tidak ditemukan, silakan periksa kembali nomor transaksi yang anda masukkan')
                 Dialog.setModal(True)
                 Dialog.show()
                 Dialog.exec_()
@@ -2620,8 +2627,7 @@ class Page1_ht(Page1):
                         Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
                         Dialog.setIcon(QtWidgets.QMessageBox.Warning)
                         Dialog.setWindowTitle('File Tidak Ditemukan')
-                        Dialog.setText(
-                            'Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
+                        Dialog.setText('Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
                         Dialog.setModal(True)
                         Dialog.show()
                         Dialog.exec_()
@@ -2636,21 +2642,14 @@ class Page1_ht(Page1):
                         rowCount2 = self.page1_ht_TableWidget.rowCount()
                         for item in KodeTransaksi.keys():
                             self.page1_ht_TableWidget.setRowCount(rowCount2 + 1)
-                            self.page1_ht_TableWidget.setItem(rowCount2, 3, QtWidgets.QTableWidgetItem(str(item)))
-                            self.page1_ht_TableWidget.item(rowCount2, 3).setTextAlignment(
-                                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                            self.page1_ht_TableWidget.setItem(rowCount2, 0,
-                                                              QtWidgets.QTableWidgetItem(str(KodeTransaksi[item][0])))
-                            self.page1_ht_TableWidget.item(rowCount2, 0).setTextAlignment(
-                                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                            self.page1_ht_TableWidget.setItem(rowCount2, 1,
-                                                              QtWidgets.QTableWidgetItem(str(KodeTransaksi[item][1])))
-                            self.page1_ht_TableWidget.item(rowCount2, 1).setTextAlignment(
-                                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                            self.page1_ht_TableWidget.setItem(rowCount2, 2,
-                                                              QtWidgets.QTableWidgetItem(str(KodeTransaksi[item][2])))
-                            self.page1_ht_TableWidget.item(rowCount2, 2).setTextAlignment(
-                                QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                            self.page1_ht_TableWidget.setItem(rowCount2, self.Page1_ht_Kolom_to_Index['KodeTransaksi'], QtWidgets.QTableWidgetItem(str(item)))
+                            self.page1_ht_TableWidget.item(rowCount2, self.Page1_ht_Kolom_to_Index['KodeTransaksi']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                            self.page1_ht_TableWidget.setItem(rowCount2, self.Page1_ht_Kolom_to_Index['Tahun'], QtWidgets.QTableWidgetItem(str(KodeTransaksi[item][0])))
+                            self.page1_ht_TableWidget.item(rowCount2, self.Page1_ht_Kolom_to_Index['Tahun']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                            self.page1_ht_TableWidget.setItem(rowCount2, self.Page1_ht_Kolom_to_Index['Bulan'], QtWidgets.QTableWidgetItem(str(KodeTransaksi[item][1])))
+                            self.page1_ht_TableWidget.item(rowCount2, self.Page1_ht_Kolom_to_Index['Bulan']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                            self.page1_ht_TableWidget.setItem(rowCount2, self.Page1_ht_Kolom_to_Index['Tanggal'], QtWidgets.QTableWidgetItem(str(KodeTransaksi[item][2])))
+                            self.page1_ht_TableWidget.item(rowCount2, self.Page1_ht_Kolom_to_Index['Tanggal']).setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
                             rowCount2 = self.page1_ht_TableWidget.rowCount()
                         self.page1_ht_TableWidget.sortItems(3, QtCore.Qt.DescendingOrder)
                 else:
@@ -2659,8 +2658,7 @@ class Page1_ht(Page1):
                     Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
                     Dialog.setIcon(QtWidgets.QMessageBox.Warning)
                     Dialog.setWindowTitle('File Tidak Ditemukan')
-                    Dialog.setText(
-                        'Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
+                    Dialog.setText('Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
                     Dialog.setModal(True)
                     Dialog.show()
                     Dialog.exec_()
@@ -2671,8 +2669,7 @@ class Page1_ht(Page1):
                 Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
                 Dialog.setIcon(QtWidgets.QMessageBox.Warning)
                 Dialog.setWindowTitle('File Tidak Ditemukan')
-                Dialog.setText(
-                    'Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
+                Dialog.setText('Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
                 Dialog.setModal(True)
                 Dialog.show()
                 Dialog.exec_()
@@ -2683,8 +2680,7 @@ class Page1_ht(Page1):
             Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
             Dialog.setIcon(QtWidgets.QMessageBox.Warning)
             Dialog.setWindowTitle('File Tidak Ditemukan')
-            Dialog.setText(
-                'Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
+            Dialog.setText('Nomor Transaksi tidak ditemukan atau tidak ada transaksi pada tanggal yang dipilih, silakan periksa kembali tanggal yang anda masukkan')
             Dialog.setModal(True)
             Dialog.show()
             Dialog.exec_()
@@ -2716,8 +2712,7 @@ class Page1_ht(Page1):
             Dialog.setWindowFlags(Qt.WindowTitleHint | Qt.WindowStaysOnTopHint)
             Dialog.setIcon(QtWidgets.QMessageBox.Warning)
             Dialog.setWindowTitle('Printer')
-            Dialog.setText('Printer tidak terdeteksi, nyalakan printer dan pastikan '
-                           'semua kabel telah terpasang dengan benar')
+            Dialog.setText('Printer tidak terdeteksi, nyalakan printer dan pastikan semua kabel telah terpasang dengan benar')
             Dialog.setModal(True)
             Dialog.show()
             Dialog.exec_()
