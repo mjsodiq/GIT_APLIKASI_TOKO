@@ -5,417 +5,126 @@ from MenuBar import *
 class Page2(MenuBar, Ui_ProgramAplikasiToko):
     def __init__(self):
         super(Page2, self).__init__()
-        MenuBar.MenuBar_Execution(self)
 
-    def Tab2(self):
-        self.tab2 = QtWidgets.QWidget()
-        self.tab2.setObjectName("Tab2")
+
+
+    def Page2_Tab2(self):
+        self.Page2_tab2 = QtWidgets.QWidget()
+        self.Page2_tab2.setObjectName("Tab2")
         icon12 = QtGui.QIcon()
         icon12.addPixmap(QtGui.QPixmap(":/Tambah/User_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tab_UTAMA.addTab(self.tab2, icon12, "")
-        self.tab_UTAMA.setTabText(self.tab_UTAMA.indexOf(self.tab2), "Atur Pengguna")
+        self.tab_UTAMA.addTab(self.Page2_tab2, icon12, "")
+        self.tab_UTAMA.setTabText(self.tab_UTAMA.indexOf(self.Page2_tab2), "Atur Pengguna")
 
-    def GridLayout_36(self):
-        self.gridLayout_36 = QtWidgets.QGridLayout(self.tab2)
-        self.gridLayout_36.setObjectName("gridLayout_36")
+    def Page2_GridLayout(self):
+        self.page2_gridLayout = QtWidgets.QGridLayout(self.Page2_tab2)
+        self.page2_gridLayout.setObjectName("gridLayout_36")
 
-    def Tab_ATUR_PENGGUNA_GridLayout(self):
-        self.tab_ATUR_PENGGUNA_GridLayout = QtWidgets.QGridLayout()
-        self.tab_ATUR_PENGGUNA_GridLayout.setObjectName("TAB_ATUR_PENGGUNA_GidLayout")
-        self.gridLayout_36.addLayout(self.tab_ATUR_PENGGUNA_GridLayout, 0, 0, 1, 1)
-
-    def Tab_ATUR_PENGGUNA_TAB(self):
-        self.tab_ATUR_PENGGUNA_TAB = QtWidgets.QTabWidget(self.tab2)
-        font = QtGui.QFont()
-        font.setPointSize(8)
-        font.setBold(False)
-        font.setWeight(50)
-        self.tab_ATUR_PENGGUNA_TAB.setFont(font)
-        self.tab_ATUR_PENGGUNA_TAB.setTabBarAutoHide(False)
-        self.tab_ATUR_PENGGUNA_TAB.setObjectName("TAB_ATUR_PENGGUNA_TAB")
-        self.tab_ATUR_PENGGUNA_GridLayout.addWidget(self.tab_ATUR_PENGGUNA_TAB, 0, 0, 1, 1)
-        self.tab_ATUR_PENGGUNA_TAB.setCurrentIndex(0)
-
-    def Tab2_Tab1(self):
-        self.tab2_Tab1 = QtWidgets.QWidget()
-        self.tab2_Tab1.setObjectName("Tab2_Tab1")
-        self.tab_ATUR_PENGGUNA_TAB.addTab(self.tab2_Tab1, "")
-        self.tab_ATUR_PENGGUNA_TAB.setTabText(self.tab_ATUR_PENGGUNA_TAB.indexOf(self.tab2_Tab1), "Tab 1")
-
-    def GridLayout_10(self):
-        self.gridLayout_10 = QtWidgets.QGridLayout(self.tab2_Tab1)
-        self.gridLayout_10.setObjectName("gridLayout_10")
-
-    def Label_3(self):
-        self.label_3 = QtWidgets.QLabel(self.tab2_Tab1)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_3.setFont(font)
-        self.label_3.setObjectName("label_3")
-        self.label_3.setText('Daftar Pengguna :')
-        self.gridLayout_10.addWidget(self.label_3, 0, 0, 1, 1)
-
-    def VerticalLayout_2(self):
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.gridLayout_10.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
-
-    def HorizontalLayout_3(self):
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setSpacing(2)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
-
-    def LineEdit_11(self):
-        self.lineEdit_11 = QtWidgets.QLineEdit(self.tab2_Tab1)
-        self.lineEdit_11.setMinimumSize(QtCore.QSize(0, 30))
-        self.lineEdit_11.setObjectName("lineEdit_11")
-        self.horizontalLayout_3.addWidget(self.lineEdit_11)
-
-    def PushButton_20(self):
-        self.pushButton_20 = QtWidgets.QPushButton(self.tab2_Tab1)
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/Tambah/Search_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_20.setText("")
-        self.pushButton_20.setIcon(icon6)
-        self.pushButton_20.setIconSize(QtCore.QSize(23, 23))
-        self.pushButton_20.setObjectName("pushButton_20")
-        self.horizontalLayout_3.addWidget(self.pushButton_20)
-
-    def TableWidget_3(self):
-        self.tableWidget_3 = QtWidgets.QTableWidget(self.tab2_Tab1)
-        self.tableWidget_3.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tableWidget_3.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tableWidget_3.setDefaultDropAction(QtCore.Qt.IgnoreAction)
-        self.tableWidget_3.setAlternatingRowColors(True)
-        self.tableWidget_3.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.tableWidget_3.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tableWidget_3.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
-        self.tableWidget_3.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
-        self.tableWidget_3.setObjectName("tableWidget_3")
-        self.tableWidget_3.setColumnCount(6)
-        self.tableWidget_3.setRowCount(44)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(7, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(8, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(9, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(10, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(11, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(12, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(13, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(14, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(15, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(16, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(17, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(18, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(19, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(20, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(21, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(22, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(23, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(24, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(25, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(26, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(27, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(28, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(29, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(30, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(31, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(32, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(33, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(34, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(35, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(36, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(37, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(38, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(39, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(40, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(41, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(42, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_3.setVerticalHeaderItem(43, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget_3.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget_3.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget_3.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget_3.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget_3.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget_3.setHorizontalHeaderItem(5, item)
-        self.tableWidget_3.verticalHeader().setVisible(False)
-        self.verticalLayout_2.addWidget(self.tableWidget_3)
-        self.tableWidget_3.setSortingEnabled(True)
-        item = self.tableWidget_3.verticalHeaderItem(0)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(1)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(2)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(3)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(4)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(5)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(6)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(7)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(8)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(9)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(10)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(11)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(12)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(13)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(14)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(15)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(16)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(17)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(18)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(19)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(20)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(21)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(22)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(23)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(24)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(25)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(26)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(27)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(28)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(29)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(30)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(31)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(32)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(33)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(34)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(35)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(36)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(37)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(38)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(39)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(40)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(41)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(42)
-        item.setText("New Row")
-        item = self.tableWidget_3.verticalHeaderItem(43)
-        item.setText("New Row")
-        item = self.tableWidget_3.horizontalHeaderItem(0)
-        item.setText("No")
-        item = self.tableWidget_3.horizontalHeaderItem(1)
-        item.setText("Nama")
-        item = self.tableWidget_3.horizontalHeaderItem(2)
-        item.setText("Username")
-        item = self.tableWidget_3.horizontalHeaderItem(3)
-        item.setText("Hak Akses")
-        item = self.tableWidget_3.horizontalHeaderItem(4)
-        item.setText("No. HP")
-        item = self.tableWidget_3.horizontalHeaderItem(5)
-        item.setText("Alamat")
-
-    def HorizontalLayout_5(self):
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
-
-    def SpacerItem5(self):
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem5)
-
-    def PushButton_21(self):
-        self.pushButton_21 = QtWidgets.QPushButton(self.tab2_Tab1)
-        self.pushButton_21.setMinimumSize(QtCore.QSize(100, 40))
-        self.pushButton_21.setMaximumSize(QtCore.QSize(200, 16777215))
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/Tambah/Remove_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_21.setIcon(icon8)
-        self.pushButton_21.setIconSize(QtCore.QSize(20, 20))
-        self.pushButton_21.setObjectName("pushButton_21")
-        self.pushButton_21.setText("  Hapus  ")
-        self.horizontalLayout_5.addWidget(self.pushButton_21)
-
-    def PushButton_23(self):
-        self.pushButton_23 = QtWidgets.QPushButton(self.tab2_Tab1)
-        self.pushButton_23.setMinimumSize(QtCore.QSize(100, 40))
-        self.pushButton_23.setMaximumSize(QtCore.QSize(200, 16777215))
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/Tambah/User Info.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_23.setIcon(icon9)
-        self.pushButton_23.setIconSize(QtCore.QSize(20, 20))
-        self.pushButton_23.setObjectName("pushButton_23")
-        self.pushButton_23.setText("  Detail  ")
-        self.horizontalLayout_5.addWidget(self.pushButton_23)
-
-    def PushButton_22(self):
-        self.pushButton_22 = QtWidgets.QPushButton(self.tab2_Tab1)
-        self.pushButton_22.setMinimumSize(QtCore.QSize(100, 40))
-        self.pushButton_22.setMaximumSize(QtCore.QSize(200, 16777215))
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/Tambah/Edit_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_22.setIcon(icon10)
-        self.pushButton_22.setIconSize(QtCore.QSize(20, 20))
-        self.pushButton_22.setObjectName("pushButton_22")
-        self.pushButton_22.setText("  Ubah  ")
-        self.horizontalLayout_5.addWidget(self.pushButton_22)
-
-    def PushButton_19(self):
-        self.pushButton_19 = QtWidgets.QPushButton(self.tab2_Tab1)
-        self.pushButton_19.setMinimumSize(QtCore.QSize(100, 40))
-        self.pushButton_19.setMaximumSize(QtCore.QSize(200, 16777215))
-        icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/Tambah/Add_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_19.setIcon(icon11)
-        self.pushButton_19.setIconSize(QtCore.QSize(20, 20))
-        self.pushButton_19.setObjectName("pushButton_19")
-        self.pushButton_19.setText("  Tambah  ")
-        self.horizontalLayout_5.addWidget(self.pushButton_19)
-
-    def SpacerItem6(self):
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem6)
-
-    def Tab_2(self):
-        self.tab_2 = QtWidgets.QWidget()
-        self.tab_2.setObjectName("tab_2")
-        self.tab_ATUR_PENGGUNA_TAB.addTab(self.tab_2, "")
-        self.tab_ATUR_PENGGUNA_TAB.setTabText(self.tab_ATUR_PENGGUNA_TAB.indexOf(self.tab_2), "Page")
+    def Page2_TabWidget(self):
+        self.page2_TabWidget = QtWidgets.QTabWidget()
+        self.page2_gridLayout.addWidget(self.page2_TabWidget, 0, 0)
 
     def Page2_Execution(self, username, kelas):
-        self.username = username
-        self.kelas = kelas
-        # TAB 2
-        self.Tab2()  # Page 2
-        self.GridLayout_36()  # Page 2
-        self.Tab_ATUR_PENGGUNA_GridLayout()  # Page 2
-        self.Tab_ATUR_PENGGUNA_TAB()  # Page 2
-        self.Tab2_Tab1()  # Page 2
-        self.GridLayout_10()  # Page 2
-        self.Label_3()  # Page 2
-        self.VerticalLayout_2()  # Page 2
-        self.HorizontalLayout_3()  # Page 2
-        self.LineEdit_11()  # Page 2
-        self.PushButton_20()  # Page 2
-        self.TableWidget_3()  # Page 2
-        self.HorizontalLayout_5()  # Page 2
-        self.SpacerItem5()  # Page 2
-        self.PushButton_21()  # Page 2
-        self.PushButton_23()  # Page 2
-        self.PushButton_22()  # Page 2
-        self.PushButton_19()  # Page 2
-        self.SpacerItem6()  # Page 2
-        self.Tab_2()  # Page 2
+        self.Page2_Tab2()
+        self.Page2_GridLayout()
+        self.Page2_TabWidget()
+        objek1 = Page2_Tab1(self)
+
+
+class Page2_Tab1(Page2):
+    def __init__(self, Data):
+        self.Data = Data
+        super(Page2_Tab1, self).__init__()
+
+        # Inisialisasi tabel staf
+        self.Page2_TableWidget_Kolom = ['No', 'Nama', 'Username', 'Password', 'Otorisasi', 'Nomor HP', 'NIK', 'Foto KTP', 'Foto Diri']
+        self.Page2_TableWidget_Kolom_to_Index = {}
+        for item in range(len(self.Page2_TableWidget_Kolom)):
+            Page2_TableWidget_Kolom_Dict = {self.Page2_TableWidget_Kolom[item]: item}
+            self.Page2_TableWidget_Kolom_to_Index.update(Page2_TableWidget_Kolom_Dict)
+
+        # Exekusi Gui untuk Page2_Tab1
+        self.Page2_Tab1_Inisialisasi_Tab()  # Page 2
+        self.Page2_Tab1_GridLayout()
+        self.Page2_Tab1_Label()
+        self.Page2_Tab1_HBoxLayout()
+        self.Page2_Tab1_Label2()
+        self.Page2_Tab1_LineEdit()
+        self.Page2_Tab1_PushButton()
+        self.Page2_Tab1_TableWidget()
+        self.Page2_Tab1_Operasi_TableWidget()
+
+    def Page2_Tab1_Inisialisasi_Tab(self):
+        self.page2_Tab1 = QtWidgets.QWidget()
+        icon = QtGui.QIcon()
+        self.Data.page2_TabWidget.addTab(self.page2_Tab1, icon, '')
+        self.Data.page2_TabWidget.setTabText(self.Data.page2_TabWidget.indexOf(self.page2_Tab1), 'Kelola Staf')
+
+    def Page2_Tab1_GridLayout(self):
+        self.page2_Tab1_GridLayout = QtWidgets.QGridLayout(self.page2_Tab1)
+
+    def Page2_Tab1_Label(self):
+        self.page2_Tab1_Label = QtWidgets.QLabel('Daftar Staf : ')
+        self.page2_Tab1_Label.setFont(Font(9, True))
+        self.page2_Tab1_GridLayout.addWidget(self.page2_Tab1_Label, 0, 0)
+
+    def Page2_Tab1_HBoxLayout(self):
+        self.page2_Tab1_HBoxLayout = QtWidgets.QHBoxLayout()
+        self.page2_Tab1_GridLayout.addLayout(self.page2_Tab1_HBoxLayout, 1, 0)
+
+    def Page2_Tab1_Label2(self):
+        self.page2_Tab1_Label2 = QtWidgets.QLabel('Cari Staf : ')
+        self.page2_Tab1_HBoxLayout.addWidget(self.page2_Tab1_Label2)
+
+    def Page2_Tab1_LineEdit(self):
+        self.page2_Tab1_LineEdit = QtWidgets.QLineEdit()
+        self.page2_Tab1_HBoxLayout.addWidget(self.page2_Tab1_LineEdit)
+
+    def Page2_Tab1_PushButton(self):
+        self.page2_Tab1_PushButton = QtWidgets.QPushButton('Cari')
+        self.page2_Tab1_HBoxLayout.addWidget(self.page2_Tab1_PushButton)
+
+    def Page2_Tab1_TableWidget(self):
+        self.page2_Tab1_TableWidget = QtWidgets.QTableWidget()
+        self.page2_Tab1_GridLayout.addWidget(self.page2_Tab1_TableWidget, 2, 0, 1, 1)
+
+    def Page2_Tab1_Operasi_TableWidget(self):
+        conn = sqlite3.connect(self.UserDatabase)
+        curr = conn.cursor()
+        Data = curr.execute('select * from user').fetchall()
+        Header = list(map(lambda x: x[0], curr.description))
+        self.page2_Tab1_TableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.page2_Tab1_TableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.page2_Tab1_TableWidget.setDefaultDropAction(QtCore.Qt.IgnoreAction)
+        self.page2_Tab1_TableWidget.setAlternatingRowColors(True)
+        self.page2_Tab1_TableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.page2_Tab1_TableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.page2_Tab1_TableWidget.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.page2_Tab1_TableWidget.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.page2_Tab1_TableWidget.verticalHeader().hide()
+        self.page2_Tab1_TableWidget.setObjectName("tableWidget_3")
+        self.page2_Tab1_TableWidget.setColumnCount(len(self.Page2_TableWidget_Kolom))
+        for item in self.Page2_TableWidget_Kolom:
+            self.page2_Tab1_TableWidget.setHorizontalHeaderItem(self.Page2_TableWidget_Kolom_to_Index[item], QtWidgets.QTableWidgetItem(item))
+
+        JumlahBaris = len(Data)
+        self.page2_Tab1_TableWidget.setRowCount(JumlahBaris)
+
+        NIK_All = curr.execute('select NIK from user').fetchall()
+        print(NIK_All[0][0])
+
+        for row in range(JumlahBaris):
+            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['No'], QtWidgets.QTableWidgetItem(str(row+1)))
+            NIK = NIK_All[row][0]
+            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['NIK'], QtWidgets.QTableWidgetItem(str(NIK)))
+            Nama = curr.execute("select Nama from user where NIK='{}'".format(NIK)).fetchone()[0]
+            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['Nama'], QtWidgets.QTableWidgetItem(str(Nama)))
+            Username = curr.execute("select username from user where NIK='{}'".format(NIK)).fetchone()[0]
+            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['Username'], QtWidgets.QTableWidgetItem(str(Username)))
+
+        print(JumlahBaris)
+        conn.close()
+
 
 
 if __name__ == '__main__':
