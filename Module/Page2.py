@@ -6,8 +6,6 @@ class Page2(MenuBar, Ui_ProgramAplikasiToko):
     def __init__(self):
         super(Page2, self).__init__()
 
-
-
     def Page2_Tab2(self):
         self.Page2_tab2 = QtWidgets.QWidget()
         self.Page2_tab2.setObjectName("Tab2")
@@ -38,12 +36,21 @@ class Page2_Tab1(Page2):
 
         # Inisialisasi tabel staf
         self.Page2_TableWidget_Kolom_to_Database_Dict = {
+                                                            'No': 'No',
                                                             'Nama': 'Nama',
+                                                            'Otorisasi': 'kelas',
                                                             'Username': 'username',
                                                             'Password': 'password',
-
+                                                            'Email': 'email',
+                                                            'Nomor HP': 'No_HP',
+                                                            'NIK': 'NIK',
+                                                            'Foto KTP': 'Foto_KTP',
+                                                            'Foto Diri': 'Foto_Diri',
+                                                            'Outlet': 'Outlet',
+                                                            'Aksi': 'Aksi'
                                                         }
-        self.Page2_TableWidget_Kolom = ['No', 'Nama', 'Username', 'Password', 'Otorisasi', 'Nomor HP', 'NIK', 'Foto KTP', 'Foto Diri']
+        self.Page2_TableWidget_Kolom = list(self.Page2_TableWidget_Kolom_to_Database_Dict.keys())
+        self.Page2_TableWidget_Kolom_to_Ignore = ['Password']
         self.Page2_TableWidget_Kolom_to_Index = {}
         for item in range(len(self.Page2_TableWidget_Kolom)):
             Page2_TableWidget_Kolom_Dict = {self.Page2_TableWidget_Kolom[item]: item}
@@ -59,6 +66,8 @@ class Page2_Tab1(Page2):
         self.Page2_Tab1_PushButton()
         self.Page2_Tab1_TableWidget()
         self.Page2_Tab1_Operasi_TableWidget()
+
+        # Perintah
 
     def Page2_Tab1_Inisialisasi_Tab(self):
         self.page2_Tab1 = QtWidgets.QWidget()
@@ -92,12 +101,14 @@ class Page2_Tab1(Page2):
 
     def Page2_Tab1_TableWidget(self):
         self.page2_Tab1_TableWidget = QtWidgets.QTableWidget()
+        self.page2_Tab1_TableWidget.setFont(Font(9, False))
         self.page2_Tab1_GridLayout.addWidget(self.page2_Tab1_TableWidget, 2, 0, 1, 1)
 
     def Page2_Tab1_Operasi_TableWidget(self):
         conn = sqlite3.connect(self.UserDatabase)
         curr = conn.cursor()
         Data = curr.execute('select * from user').fetchall()
+        No = curr.execute("select No from user").fetchall()
         Header = list(map(lambda x: x[0], curr.description))
         self.page2_Tab1_TableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.page2_Tab1_TableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -112,25 +123,70 @@ class Page2_Tab1(Page2):
         self.page2_Tab1_TableWidget.setColumnCount(len(self.Page2_TableWidget_Kolom))
         for item in self.Page2_TableWidget_Kolom:
             self.page2_Tab1_TableWidget.setHorizontalHeaderItem(self.Page2_TableWidget_Kolom_to_Index[item], QtWidgets.QTableWidgetItem(item))
+            self.page2_Tab1_TableWidget.horizontalHeader().setSectionResizeMode(self.Page2_TableWidget_Kolom_to_Index[item], QtWidgets.QHeaderView.ResizeToContents)
+
+        self.page2_Tab1_TableWidget.horizontalHeader().setSectionResizeMode(self.Page2_TableWidget_Kolom_to_Index['Nama'], QtWidgets.QHeaderView.Stretch)
 
         JumlahBaris = len(Data)
         self.page2_Tab1_TableWidget.setRowCount(JumlahBaris)
 
-        NIK_All = curr.execute('select NIK from user').fetchall()
-        print(NIK_All[0][0])
-
         for row in range(JumlahBaris):
-            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['No'], QtWidgets.QTableWidgetItem(str(row+1)))
-            NIK = NIK_All[row][0]
-            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['NIK'], QtWidgets.QTableWidgetItem(str(NIK)))
-            Nama = curr.execute("select Nama from user where NIK='{}'".format(NIK)).fetchone()[0]
-            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['Nama'], QtWidgets.QTableWidgetItem(str(Nama)))
-            Username = curr.execute("select username from user where NIK='{}'".format(NIK)).fetchone()[0]
-            self.page2_Tab1_TableWidget.setItem(row, self.Page2_TableWidget_Kolom_to_Index['Username'], QtWidgets.QTableWidgetItem(str(Username)))
+            No = row
+            for key in self.Page2_TableWidget_Kolom:
+                if key not in self.Page2_TableWidget_Kolom_to_Ignore:
+                    try:
+                        self.page2_Tab1_TableWidget.setItem(No, self.Page2_TableWidget_Kolom_to_Index[key], QtWidgets.QTableWidgetItem(str(curr.execute("select {} from user where No='{}'".format(self.Page2_TableWidget_Kolom_to_Database_Dict[key], No+1)).fetchone()[0])))
+                    except:
+                        pass
+                else:
+                    pass
 
-        print(JumlahBaris)
+
+
+        # Menambahkan Tombol 'Minta Password' pada kolom 'Password'
+        for row in range(JumlahBaris):
+            Widget1 = QtWidgets.QWidget()
+
+            HBoxLayout = QtWidgets.QHBoxLayout(Widget1)
+            HBoxLayout.setAlignment(QtCore.Qt.AlignHCenter)
+            HBoxLayout.setContentsMargins(5, 0, 5, 0)
+            HBoxLayout.setSpacing(5)
+
+            TombolMintaPassword = QtWidgets.QPushButton("MintaPassword")
+            TombolMintaPassword.clicked.connect(lambda: self.Page2_Tab1_TombolMintaPassword_clicked())
+            HBoxLayout.addWidget(TombolMintaPassword)
+
+            self.page2_Tab1_TableWidget.setCellWidget(row, self.Page2_TableWidget_Kolom_to_Index["Password"], Widget1)
+
+        # Menambahkan Tombol pada Kolom Aksi
+        for row in range(JumlahBaris):
+            Widget2 = QtWidgets.QWidget()
+
+            HBoxLayout = QtWidgets.QHBoxLayout(Widget2)
+            HBoxLayout.setAlignment(QtCore.Qt.AlignHCenter)
+            HBoxLayout.setContentsMargins(5, 0, 5, 0)
+            HBoxLayout.setSpacing(5)
+
+            TombolHapus = QtWidgets.QPushButton("Hapus Staf")
+            TombolHapus.clicked.connect(self.Page2_Tab1_TombolHapusStaf_clicked)
+            HBoxLayout.addWidget(TombolHapus)
+
+            TombolUbah = QtWidgets.QPushButton("Ubah")
+            TombolUbah.clicked.connect(self.Page2_Tab1_TombolUbah_clicked)
+            HBoxLayout.addWidget(TombolUbah)
+
+            self.page2_Tab1_TableWidget.setCellWidget(row, self.Page2_TableWidget_Kolom_to_Index["Aksi"], Widget2)
+
         conn.close()
 
+    def Page2_Tab1_TombolMintaPassword_clicked(self):
+        print("tombol Minta Password telah diklik")
+
+    def Page2_Tab1_TombolHapusStaf_clicked(self):
+        print("tombol Hapus Staf telah diklik")
+
+    def Page2_Tab1_TombolUbah_clicked(self):
+        print("tombol Ubah telah diklik")
 
 
 if __name__ == '__main__':
