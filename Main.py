@@ -3,7 +3,6 @@ import sys
 
 
 # 1. Masukkan Paket yang berisi modul yang kita ingin import ke dalam path, agar mudah diimport
-[print("item syspath 1 : ", item) for item in sys.path]
 Directory = []
 Directory_to_Ignore = ["__pycache__", ".git", "Temp"]
 DirectoryItem = os.listdir(os.getcwd())
@@ -15,7 +14,6 @@ for item in DirectoryItem:
         sys.path.append(r'{}\{}'.format(os.getcwd(), item))
     else:
         pass
-[print("item syspath 2 : ", item) for item in sys.path]
 # .1 Akhir dari 1
 
 from Module import *
@@ -134,7 +132,9 @@ class PageExecution(Page0, Page1, Page2, Page3, Page4, Page5, Page6, Page7, Page
 
     def EventTabUtamaTabChange(self):
         try:
-            self.page3_pushButton_3.click() # tombol reload database di page 3, tab semua item
+            # self.page3_pushButton_3.click() # tombol reload database di page 3, tab semua item
+            print("pindah tab")
+            pass
         except:
             print("PageExecution.py said: def EventTabUtamaTabChange(self): Gagal")
             pass
